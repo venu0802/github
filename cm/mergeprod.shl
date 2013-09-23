@@ -1,0 +1,91 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Shell Script Name  : mergeprod
+#  Process Associated : git
+#  Object Source File Location and Name : z:\github\cm\mergeprod.shl
+#  Business Logic : 
+#   Explain business logic here.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    9/23/2013       VBANGALO     Initial Creation 
+#   
+#************************************************************************
+. checkoutissue.shl
+echo "in cm mergeprod"
+# first merge branches to local server
+pwd
+git checkout master
+git fetch --all
+git reset --hard origin/master
+echo "creating directory ${issue}"
+if [ -d ../${issue} ]; then
+  rm -rf ../${issue}
+fi
+mkdir ../${issue}
+git merge ${issue} > ../${issue}/${issue}.log
+check=`cat ../${issue}/${issue}.log|grep -i "failed" |wc -l`
+
+if [ $check -gt 0 ]; then
+  git status >> ../${issue}/${issue}.log
+  cat ../${issue}/${issue}.log | grep CONFLICT | sed 's/.*conflict in //' > ../${issue}/${issue}_merge.txt
+  echo "** before abort file status" >> ../${issue}/${issue}_status.txt
+  for i in `cat ../${issue}/${issue}_merge.txt`
+  do
+    cp $i ../${issue}/.
+	echo "" >> ../${issue}/${issue}_status.txt
+	echo "**********" >> ../${issue}/${issue}_status.txt
+	echo $i >> ../${issue}/${issue}_status.txt
+	git log -2 --all --decorate $i >> ../${issue}/${issue}_status.txt
+	
+  done
+  git merge --abort
+  git checkout master
+  echo "could not be merged. Please check with developer. Make sure branch is on master. Ok?"
+  read bla
+else
+  brnch=`echo $issue | sed s/\.test/prod/`
+  echo "creating branch issue.prod"
+  git branch -m ${issue} ${brnch}
+  echo "pushing branch issue.prod"
+  git checkout ${brnch}
+  git push origin ${brnch}
+   echo "pushing branch delete issue"
+  git checkout ${issue}
+  git push origin --delete ${issue}
+  git push origin master
+  stat=$?
+  echo "status is ${stat}"
+  if [ $stat -eq 0 ]; then
+  echo "pushing to remote server"
+  git push ${rmtSrv}/${reposit}.git ${brnch}
+  git push ${rmtSrv}/${reposit}.git master
+  git push ${rmtSrv}/${reposit}.git --delete ${issue}
+  echo `pwd`
+  # No need to push wiki
+  # No need to push wikicd ../${reposit}.wiki
+  
+  #echo `pwd`
+  #read bla
+  #git pull origin master
+  #echo " going to push ${rmtSrv}/${reposit}.wiki.git"
+  #read bla
+  #git push ${rmtSrv}/${reposit}.wiki.git master
+  #cd ../${reposit}
+  else 
+    echo "could not push to local server and hence not pushing to remote"
+  fi
+fi  
+git checkout master
+
+

@@ -1,0 +1,61 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Shell Script Name  : createIssueBranch.shl
+#  Process Associated : git
+#  Object Source File Location and Name : z:\github\cm\createIssueBranch.shl
+#  Business Logic : 
+#   Make sure that issue is created in githubserver <<reposit>>.#<issuno>> format.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    9/16/2013       VBANGALO     Initial Creation 
+#   
+#************************************************************************
+curdir=`pwd`
+echo "Please enter name of issue you want to create(Like oasban.#1 etc..)"
+read issue
+echo "Please enter developer os name assigned to issue(Like vbangalo not like venu0802)"
+read devAssigned
+echo 'issue is '${issue}
+. setRemoteSrv.shl
+. setLocalSrv.shl
+echo ${issue} |cut -d'.' -f1 
+reposit=`echo ${issue} |cut -d'.' -f1`
+echo 'reposit is '${reposit}
+. changetoLocalGitDir.shl
+cd ${reposit}
+pwd
+echo "pulling and resetting master"
+git checkout master
+git fetch --all
+git reset --hard origin/master
+echo "creating issue branch and pushing"
+git branch ${issue} 
+git push origin ${issue}
+#git push ${rmtSrv}/${reposit}.git ${issue}
+stat=$?
+echo "push status is  ${stat}"
+# todo: add check if branch really created or not
+git branch -a
+git status
+# Add branch level security. CM group and assgined developer should have privs to push
+#masterUsers=`cat ${curdir}/allowed-users`;
+sed "/${issue}/d" ${localRep}/${reposit}.git/info/allowed-users > ${localRep}/${reposit}.git/info/tmp
+cat ${localRep}/${reposit}.git/info/tmp > ${localRep}/${reposit}.git/info/allowed-users
+rm -f ${localRep}/${reposit}.git/info/tmp
+#echo "" >> ${localRep}/${reposit}.git/info/allowed-users
+#echo "refs/heads/${issue} ${masterUsers} ${devAssigned}" >> ${localRep}/${reposit}.git/info/allowed-users
+echo "refs/heads/${issue} ${devAssigned}" >> ${localRep}/${reposit}.git/info/allowed-users
+echo "following users can change ${issue} branch"
+
+cat ${localRep}/${reposit}.git/info/allowed-users | grep "${issue}"

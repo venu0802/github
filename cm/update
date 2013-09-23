@@ -1,0 +1,60 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Shell Script Name  : update
+#  Process Associated : git
+#  Object Source File Location and Name : z:\github\cm\update
+#  Business Logic : 
+#   Explain business logic here.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    9/21/2013       VBANGALO     Initial Creation 
+#   
+#************************************************************************
+
+
+function grant {
+  $verbose && echo >&2 "-Grant-		$1"
+  echo grant
+  exit 0
+}
+
+function deny {
+  $verbose && echo >&2 "-Deny-		$1"
+  echo deny
+  exit 1
+}
+function allowCMGroup {
+   allow=`cat ${allowed_users_file} | grep -v '^#' | grep -v '^$' | grep "refs/heads/master" |grep $username |wc -l`
+   echo "allow is $allow"
+   if [ $allow -gt 0 ];then
+     grant "$username belongs to CMGroup"
+   fi
+}
+function checkBrachPermission {
+allow=`cat ${allowed_users_file} | grep -v '^#' | grep -v '^$' | grep $1 | grep $username | wc -l`
+if [ $allow -gt 0 ];then
+     grant "$username belongs to CMGroup"
+else 
+   deny "Not allowed to change $1"
+fi
+}
+echo `pwd`
+allowed_users_file=$GIT_DIR/info/allowed-users
+export allowed_users_file
+username=$(id -u -n)
+
+echo "checking for cmgroup"
+allowCMGroup
+echo "check for dev privileges "
+checkBrachPermission $1

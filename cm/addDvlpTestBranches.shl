@@ -1,0 +1,42 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Shell Script Name  : addDvlpTestBranches
+#  Process Associated : git
+#  Object Source File Location and Name : z:\github\cm\addDvlpTestBranches.shl
+#  Business Logic : 
+#   Explain business logic here.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    9/16/2013       VBANGALO     Initial Creation 
+#   
+#************************************************************************
+# get repository name and go to local repository
+echo "Please enter name of repository you want to setup(Like oasban/oasam etc..)"
+read reposit
+# first set remoteServer since it is in z drive.
+. setRemoteSrv.shl
+. changetoLocalGitDir.shl
+cd $reposit
+# create branches and push to remote
+git branch dvlp
+git branch test
+echo "pusging dvlp and test branches to local server"
+git push origin dvlp
+git push origin test
+echo "pushing dvlp and test to remote server"
+git push ${rmtSrv}/${reposit}.git dvlp
+git push ${rmtSrv}/${reposit}.git test
+
+
+git status

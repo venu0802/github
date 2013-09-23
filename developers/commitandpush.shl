@@ -1,0 +1,63 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Shell Script Name  : changetoLocalGitDir
+#  Process Associated : git
+#  Object Source File Location and Name : z:\github\developers\addCommitAndPush.shl
+#  Business Logic : 
+#   Explain business logic here.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    9/18/2013       VBANGALO     Initial Creation 
+#   
+#************************************************************************
+#  Do not use.. Use gui
+echo "Please enter name of issue(Like oasban.#1 etc..)"
+read issue
+echo 'issue is '${issue}
+echo "Please enter commit message"
+read message
+echo ${issue} |cut -d'.' -f1 
+reposit=`echo ${issue} |cut -d'.' -f1`
+issueNo=`echo ${issue} |cut -d'.' -f2`
+export issue
+export reposit
+export issueNo
+echo 'reposit is '${reposit}
+. changetoLocalGitDir.shl
+cd ${reposit}
+status=$?
+echo "status is $status"
+if [ $status -ne 0 ];then
+  echo "Sorry ${reposit} not exists under "
+  echo `pwd`
+  exit
+fi
+pwd
+curBranch=`git branch | sed -n '/\* /s///p'`
+if [ $curBranch != ${issue} ]; then
+  echo "Sorry, you are in wrong branch."
+  exit
+fi
+git status | tee ../${issue}.log
+
+echo "Do you want to add all these files? (yes/no)"
+read resp
+if [ resp != "yes" ]; then
+ echo "you selected no "
+ exit
+else
+  add .
+  commit -m "${issueNo} ${message}"
+fi 
+echo "after check"

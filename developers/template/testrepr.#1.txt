@@ -1,0 +1,26 @@
+Developer:       VBANGALO
+Project Manager: Anne Runion 
+#  General Information
+#  -------------------
+#  Reposit Name       : testrepr
+#  Issue Name         : testrepr.#1
+#  Process Associated : git
+#  Object Source File Location and Name : c:\github\testrepr.wiki\testrepr.#1.txt
+
+testrepr.#1 Issue Instructions
+
+Objects added/modified in this issue:
+dbprocs\wsak_adm_appl.sql
+
+Instructions for DVLP:
+1) Merge issue to dvlp
+2) Run shell script and driver script from wiki
+ 
+
+Instructions for PPRD:
+1) Merge issue to test
+2) Run shell script and driver script from wiki
+
+Instructions for PROD:
+1) Merge issue to prod
+2) Run shell script and driver script from wiki

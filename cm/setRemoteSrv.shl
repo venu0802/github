@@ -1,0 +1,24 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Shell Script Name  : createIssueBranch.shl
+#  Process Associated : git
+#  Object Source File Location and Name : z:\github\cm\setRemoteSrv.shl
+#  Business Logic : 
+#   Explain business logic here.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    9/16/2013       VBANGALO     Initial Creation 
+#   
+#************************************************************************
+rmtSrv=git@github.com:USF-IT

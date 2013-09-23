@@ -1,0 +1,84 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Shell Script Name  : changetoLocalGitDir
+#  Process Associated : git
+#  Object Source File Location and Name : z:\github\cm\createLocalServer.shl
+#  Business Logic : 
+#   Explain business logic here.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    9/18/2013       VBANGALO     Initial Creation 
+#   
+#************************************************************************
+curdir=`pwd`
+echo "Please enter name of repository you want to clone(Like oasban/oasam etc..)"
+read reposit
+# set git directory for cm support  
+. setLocalSrv.shl
+. setRemoteSrv.shl
+. changetoLocalGitDir.shl
+
+# Since we crate all repositories into git hub first and later create local repositories
+# from github, we assume that the repository exists in github (remote server)
+# Need to copy from remote git hub and create local git server for that repository.
+# Cloning remote repository
+echo "creating repositroy from remote github"
+git clone ${rmtSrv}/${reposit}.git
+cd $reposit
+echo "cloned ${reposit}"
+git status
+cd ..
+
+# Cloning remote wiki
+echo "creating wiki for the repository from github"
+git clone ${rmtSrv}/${reposit}.wiki.git
+cd ${reposit}.wiki
+echo "cloned wiki and status is"
+git status
+cd ..
+echo "creating repository on local git server"
+
+## Now create local git servers for repository and wiki 
+
+# create local server for repository
+git clone --bare ${reposit} ${localRep}/${reposit}.git
+# create local server for repository wiki pages
+git clone --bare ${reposit}.wiki ${localRep}/${reposit}.wiki.git
+# Now that local git server is created for local repositor, remove reference to remote 
+# and create reference to local server repository
+rm -r -f ${reposit}
+rm -r -f ${reposit}.wiki
+git clone ${localRep}/${reposit}.git
+git clone ${localRep}/${reposit}.wiki.git
+cd ${reposit}
+echo "after cloning from local repository server remote is "
+git remote -v
+echo "status is "
+git status
+cd ..
+cd ${reposit}.wiki
+echo "after cloning from local repository wiki server remote is "
+git remote -v
+echo "status is "
+git status
+# Add hooks change to local server cm directory
+cp ${curdir}/update ${localRep}/${reposit}.git/hooks
+touch ${localRep}/${reposit}.git/info/allowed-users
+masterUsers=`cat ${curdir}/allowed-users`;
+echo "refs/heads/master ${masterUsers}" > ${localRep}/${reposit}.git/info/allowed-users
+echo "following users can change master branch"
+cat ${localRep}/${reposit}.git/info/allowed-users | grep master
+
+
+
