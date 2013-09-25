@@ -54,14 +54,13 @@ if [ $check -gt 0 ]; then
   echo "could not be merged. Please check with developer. Make sure branch is on master. Ok?"
   read bla
 else
-  brnch=`echo $issue | sed s/\.test/prod/`
+  brnch=`echo $issue | sed s/\.test/\.prod/`
   echo "creating branch issue.prod"
   git branch -m ${issue} ${brnch}
   echo "pushing branch issue.prod"
   git checkout ${brnch}
   git push origin ${brnch}
    echo "pushing branch delete issue"
-  git checkout ${issue}
   git push origin --delete ${issue}
   git push origin master
   stat=$?
@@ -72,16 +71,6 @@ else
   git push ${rmtSrv}/${reposit}.git master
   git push ${rmtSrv}/${reposit}.git --delete ${issue}
   echo `pwd`
-  # No need to push wiki
-  # No need to push wikicd ../${reposit}.wiki
-  
-  #echo `pwd`
-  #read bla
-  #git pull origin master
-  #echo " going to push ${rmtSrv}/${reposit}.wiki.git"
-  #read bla
-  #git push ${rmtSrv}/${reposit}.wiki.git master
-  #cd ../${reposit}
   else 
     echo "could not push to local server and hence not pushing to remote"
   fi

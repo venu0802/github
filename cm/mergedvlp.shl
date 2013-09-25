@@ -57,26 +57,28 @@ if [ $check -gt 0 ]; then
 else
   echo "creating branch issue.dvlp"
   git branch -m ${issue} ${issue}.dvlp
+  git branch -d ${issue}
   echo "pushing branch issue.dvlp"
   git checkout ${issue}.dvlp
   git push origin ${issue}.dvlp
    echo "pushing branch delete issue"
-  git checkout ${issue}
   git push origin --delete ${issue}
   git push origin dvlp
   stat=$?
   echo "status is ${stat}"
   if [ $stat -eq 0 ]; then
-  echo "pushing to remote server"
-  git push ${rmtSrv}/${reposit}.git ${issue}.dvlp
-  git push ${rmtSrv}/${reposit}.git dvlp
-  echo `pwd`
-  cd ../${reposit}.wiki
-  echo `pwd`
-  git pull origin master
-  echo " going to push ${rmtSrv}/${reposit}.wiki.git"
-  git push ${rmtSrv}/${reposit}.wiki.git master
-  cd ../${reposit}
+    echo "pushing to remote server"
+    git push ${rmtSrv}/${reposit}.git ${issue}.dvlp
+    git push ${rmtSrv}/${reposit}.git dvlp
+    echo `pwd`
+    cd ../${reposit}.wiki
+    echo `pwd`
+    git pull origin master
+    echo " going to push ${rmtSrv}/${reposit}.wiki.git"
+    git push ${rmtSrv}/${reposit}.wiki.git master
+	## change developer privileges to issue.dvlp. This will stop develpoer accidentally pushing his changes after issue is merged to dvlp.
+	sed -i -e '/${issue}/ s/^/#/' ${localRep}/${reposit}.git/info/allowed-users
+    cd ../${reposit}
   else 
     echo "could not push to local server and hence not pushing to remote"
   fi

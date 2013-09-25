@@ -49,7 +49,6 @@ echo "push status is  ${stat}"
 git branch -a
 git status
 # Add branch level security. CM group and assgined developer should have privs to push
-#masterUsers=`cat ${curdir}/allowed-users`;
 sed "/${issue}/d" ${localRep}/${reposit}.git/info/allowed-users > ${localRep}/${reposit}.git/info/tmp
 cat ${localRep}/${reposit}.git/info/tmp > ${localRep}/${reposit}.git/info/allowed-users
 rm -f ${localRep}/${reposit}.git/info/tmp

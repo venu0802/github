@@ -1,0 +1,43 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Shell Script Name  : deleteBranch.shl
+#  Process Associated : git
+#  Object Source File Location and Name : z:\github\cm\demotefromdvlp.shl
+#  Business Logic : 
+#   Explain business logic here.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    9/23/2013       VBANGALO     Initial Creation 
+#   
+#************************************************************************
+. checkoutissue.shl
+echo "in cm mergetest"
+# first merge branches to local server
+pwd
+
+ brnch=`echo $issue | sed s/\.dvlp//`
+git branch -m ${issue} ${brnch}
+git push origin ${brnch}
+git push origin --delete ${issue}
+git push ${rmtSrv}/${reposit}.git ${brnch}
+git push ${rmtSrv}/${reposit}.git --delete ${issue}
+read bla
+echo "brnch is ${brnch}"
+echo "${localRep}/${reposit}.git/info/allowed-users"
+mysed=`echo "sed -i -e '/${brnch}/ s/^#//' ${localRep}/${reposit}.git/info/allowed-users"`
+eval $mysed
+#sed -i -e '/${brnch}/ s/^#//' ${localRep}/${reposit}.git/info/allowed-users
+
+
+  
