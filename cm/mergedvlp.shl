@@ -46,7 +46,14 @@ if [ $check -gt 0 ]; then
 	echo "" >> ../${issue}/${issue}_status.txt
 	echo "**********" >> ../${issue}/${issue}_status.txt
 	echo $i >> ../${issue}/${issue}_status.txt
-	git log -2 --all --decorate $i >> ../${issue}/${issue}_status.txt
+	echo "in dvlp branch" >> ../${issue}/${issue}_status.txt
+	echo "--------------" >> ../${issue}/${issue}_status.txt
+	git log -1 dvlp  --decorate $i >> ../${issue}/${issue}_status.txt
+	echo "in ${issue} branch" >> ../${issue}/${issue}_status.txt
+	echo "---------------------" >> ../${issue}/${issue}_status.txt
+	git log -1 ${issue}  --decorate $i >> ../${issue}/${issue}_status.txt
+
+	#git log -2 --all --decorate $i >> ../${issue}/${issue}_status.txt
 	
   done
   git merge --abort
@@ -71,13 +78,14 @@ else
     git push ${rmtSrv}/${reposit}.git ${issue}.dvlp
     git push ${rmtSrv}/${reposit}.git dvlp
     echo `pwd`
-    cd ../${reposit}.wiki
-    echo `pwd`
-    git pull origin master
-    echo " going to push ${rmtSrv}/${reposit}.wiki.git"
-    git push ${rmtSrv}/${reposit}.wiki.git master
+    #cd ../${reposit}.wiki
+    #echo `pwd`
+    #git pull origin master
+    #echo " going to push ${rmtSrv}/${reposit}.wiki.git"
+    #git push ${rmtSrv}/${reposit}.wiki.git master
 	## change developer privileges to issue.dvlp. This will stop develpoer accidentally pushing his changes after issue is merged to dvlp.
-	sed -i -e '/${issue}/ s/^/#/' ${localRep}/${reposit}.git/info/allowed-users
+	mysed=`echo "sed -i -e '/${issue}/ s/^/#/' ${localRep}/${reposit}.git/info/allowed-users"`
+    eval $mysed
     cd ../${reposit}
   else 
     echo "could not push to local server and hence not pushing to remote"

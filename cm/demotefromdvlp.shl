@@ -32,7 +32,6 @@ git push origin ${brnch}
 git push origin --delete ${issue}
 git push ${rmtSrv}/${reposit}.git ${brnch}
 git push ${rmtSrv}/${reposit}.git --delete ${issue}
-read bla
 echo "brnch is ${brnch}"
 echo "${localRep}/${reposit}.git/info/allowed-users"
 mysed=`echo "sed -i -e '/${brnch}/ s/^#//' ${localRep}/${reposit}.git/info/allowed-users"`

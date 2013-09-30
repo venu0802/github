@@ -25,11 +25,7 @@
 echo "in cm mergetest"
 # first merge branches to local server
 pwd
-
- brnch=`echo $issue | sed s/\.dvlp//`
-git branch -m ${brnch}
-git push origin ${brnch}
+git branch -d ${issue}
 git push origin --delete ${issue}
-git push ${rmtSrv}/${reposit}.git ${brnch}
 git push ${rmtSrv}/${reposit}.git --delete ${issue}
   

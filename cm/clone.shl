@@ -7,9 +7,9 @@
 #
 #  General Information
 #  -------------------
-#  Shell Script Name  : setLocalSrv.shl
+#  Shell Script Name  : changetoLocalGitDir
 #  Process Associated : git
-#  Object Source File Location and Name : z:\github\developers\setLocalSrv.shl
+#  Object Source File Location and Name : z:\github\developers\clone.shl
 #  Business Logic : 
 #   Explain business logic here.
 #
@@ -18,9 +18,18 @@
 # ------------------------------------  
 #      Date         User         Reason For Change
 #   ---------       ------     -----------------------
-#    9/16/2013       VBANGALO     Initial Creation 
+#    9/18/2013       VBANGALO     Initial Creation 
 #   
 #************************************************************************
-#localRep=/z/github
-localRep=/z/gitreps
-#localRep=/o/it-sit/gitreps
+echo "Please enter name of repository you want to clone(Like oasban/oasam etc..)"
+read reposit
+# set git directory for cm support  
+. setLocalSrv.shl
+. changetoLocalGitDir.shl
+
+# Need to copy from local git server.
+echo "creating repositroy from remote github"
+git clone ${localRep}/${reposit}.git
+git clone ${localRep}/${reposit}.wiki.git
+cd ${reposit}
+git status

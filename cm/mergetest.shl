@@ -46,7 +46,13 @@ if [ $check -gt 0 ]; then
 	echo "" >> ../${issue}/${issue}_status.txt
 	echo "**********" >> ../${issue}/${issue}_status.txt
 	echo $i >> ../${issue}/${issue}_status.txt
-	git log -2 --all --decorate $i >> ../${issue}/${issue}_status.txt
+	echo "in test branch" >> ../${issue}/${issue}_status.txt
+	echo "--------------" >> ../${issue}/${issue}_status.txt
+	git log -1 test  --decorate $i >> ../${issue}/${issue}_status.txt
+	echo "in ${issue} branch" >> ../${issue}/${issue}_status.txt
+	echo "---------------------" >> ../${issue}/${issue}_status.txt
+	git log -1 ${issue}  --decorate $i >> ../${issue}/${issue}_status.txt
+	#git log -10 test ${issue} --decorate $i >> ../${issue}/${issue}_status.txt
 	
   done
   git merge --abort

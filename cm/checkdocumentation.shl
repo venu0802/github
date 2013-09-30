@@ -7,9 +7,9 @@
 #
 #  General Information
 #  -------------------
-#  Shell Script Name  : changetoLocalGitDir
+#  Shell Script Name  : checkdocumentation.shl
 #  Process Associated : git
-#  Object Source File Location and Name : z:\github\developers\checkoutIssue.shl
+#  Object Source File Location and Name : z:\github\cm\checkdocumentation.shl
 #  Business Logic : 
 #   Explain business logic here.
 #
@@ -18,30 +18,30 @@
 # ------------------------------------  
 #      Date         User         Reason For Change
 #   ---------       ------     -----------------------
-#    9/18/2013       VBANGALO     Initial Creation 
+#    9/23/2013       VBANGALO     Initial Creation 
 #   
 #************************************************************************
 echo "Please enter name of issue(Like oasban.#1 etc..)"
 read issue
 . setLocalSrv.shl
-#. setRemoteSrv.shl
+. setRemoteSrv.shl
 . changetoLocalGitDir.shl
 echo 'issue is '${issue}
 echo ${issue} |cut -d'.' -f1 
 reposit=`echo ${issue} |cut -d'.' -f1`
 echo 'reposit is '${reposit}
-cd ${reposit}
+echo `pwd`
+cd ${reposit}.wiki
 pwd
-read bla
+git checkout master
 echo "pulling and resetting master"
 git fetch --all
-git branch -a
-read bla
 git reset --hard origin/master
-echo "pulling and resetting "${issue}
-git branch ${issue} origin/${issue}
-git checkout ${issue}
-git fetch --all
-git reset --hard origin/${issue}
-git branch -v
-git status
+git checkout master
+head -n 20 ${issue}.txt.asciidoc
+if [ `head -n 20 ${issue}.txt.asciidoc | wc -l` -gt 0 ];then
+  git push ${rmtSrv}/${reposit}.wiki.git master
+else
+  echo "${issue}.txt.asciidoc not found. Check with user. Ok?"
+  read "stat"
+fi

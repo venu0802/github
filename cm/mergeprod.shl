@@ -46,13 +46,20 @@ if [ $check -gt 0 ]; then
 	echo "" >> ../${issue}/${issue}_status.txt
 	echo "**********" >> ../${issue}/${issue}_status.txt
 	echo $i >> ../${issue}/${issue}_status.txt
-	git log -2 --all --decorate $i >> ../${issue}/${issue}_status.txt
+    echo "in master branch" >> ../${issue}/${issue}_status.txt
+	echo "--------------" >> ../${issue}/${issue}_status.txt
+	git log -1 master  --decorate $i >> ../${issue}/${issue}_status.txt
+	echo "in ${issue} branch" >> ../${issue}/${issue}_status.txt
+	echo "---------------------" >> ../${issue}/${issue}_status.txt
+	git log -1 ${issue}  --decorate $i >> ../${issue}/${issue}_status.txt
+
+	#git log -2 --all --decorate $i >> ../${issue}/${issue}_status.txt
 	
   done
   git merge --abort
   git checkout master
   echo "could not be merged. Please check with developer. Make sure branch is on master. Ok?"
-  read bla
+  read notmerged
 else
   brnch=`echo $issue | sed s/\.test/\.prod/`
   echo "creating branch issue.prod"

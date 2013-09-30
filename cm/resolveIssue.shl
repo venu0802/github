@@ -1,0 +1,48 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Shell Script Name  : resolveIssue.shl
+#  Process Associated : git
+#  Object Source File Location and Name : z:\github\cm\resolveIssue.shl
+#  Business Logic : 
+#   Explain business logic here.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    9/23/2013       VBANGALO     Initial Creation 
+#   
+#************************************************************************
+. checkoutissue.shl
+echo "in resolveIssue"
+pwd
+echo "enter git stage (dvlp/test/master)"
+read stage
+git checkout ${stage}
+git fetch --all
+git reset --hard origin/${stage}
+for i in {1..100}
+do
+  echo "enter file to resolved file name like dbprocs/wp_test_db.sql"
+  read resfile
+  git checkout ${issue} -- $resfile
+  echo "Do you have more files to be resolved?"
+  read resp
+  if [ $resp == "no" ];then
+     break;
+  fi
+done
+git status
+iss=`echo ${issue} |cut -d'.' -f2`
+echo "issue is ${iss}"
+git commit -m"${iss} applied resolved file ${resfile}"
+git push origin $stage
+git checkout master
