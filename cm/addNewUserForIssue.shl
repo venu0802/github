@@ -7,9 +7,9 @@
 #
 #  General Information
 #  -------------------
-#  Shell Script Name  : changetoLocalGitDir
+#  Shell Script Name  : addNewUserForIssue.shl
 #  Process Associated : git
-#  Object Source File Location and Name : z:\github\developers\checkoutIssue.shl
+#  Object Source File Location and Name : z:\github\cm\addNewUserForIssue.shl
 #  Business Logic : 
 #   Explain business logic here.
 #
@@ -18,13 +18,13 @@
 # ------------------------------------  
 #      Date         User         Reason For Change
 #   ---------       ------     -----------------------
-#    9/18/2013       VBANGALO     Initial Creation 
+#    9/30/2013       VBANGALO     Initial Creation 
 #   
 #************************************************************************
 echo "Please enter name of issue(Like oasban.#1 etc..)"
 read issue
 . setLocalSrv.shl
-#. setRemoteSrv.shl
+. setRemoteSrv.shl
 . changetoLocalGitDir.shl
 echo 'issue is '${issue}
 echo ${issue} |cut -d'.' -f1 
@@ -32,14 +32,12 @@ reposit=`echo ${issue} |cut -d'.' -f1`
 echo 'reposit is '${reposit}
 cd ${reposit}
 pwd
-echo "pulling and resetting master"
-git fetch --all
-git branch -a
-git reset --hard origin/master
-echo "pulling and resetting "${issue}
-git branch ${issue} origin/${issue}
-git checkout ${issue}
-git fetch --all
-git reset --hard origin/${issue}
-git branch -v
-git status
+echo "Enter new user OSID to work on issue ${issue}. (Like vbangalo instead of venu0802)"
+read userId
+sed -i -e '/${issue}/ s/$/  ${userId}/' ${localRep}/${reposit}.git/info/allowed-users
+echo "Currently following users can change ${issue} branch."
+cat ${localRep}/${reposit}.git/info/allowed-users | grep "${issue}"
+
+
+
+

@@ -7,9 +7,9 @@
 #
 #  General Information
 #  -------------------
-#  Shell Script Name  : changetoLocalGitDir
+#  Shell Script Name  : closeIssue.shl
 #  Process Associated : git
-#  Object Source File Location and Name : z:\github\developers\checkoutIssue.shl
+#  Object Source File Location and Name : z:\github\developers\closeIssue.shl
 #  Business Logic : 
 #   Explain business logic here.
 #
@@ -18,13 +18,13 @@
 # ------------------------------------  
 #      Date         User         Reason For Change
 #   ---------       ------     -----------------------
-#    9/18/2013       VBANGALO     Initial Creation 
+#    9/30/2013       VBANGALO     Initial Creation 
 #   
 #************************************************************************
 echo "Please enter name of issue(Like oasban.#1 etc..)"
 read issue
 . setLocalSrv.shl
-#. setRemoteSrv.shl
+. setRemoteSrv.shl
 . changetoLocalGitDir.shl
 echo 'issue is '${issue}
 echo ${issue} |cut -d'.' -f1 
@@ -32,14 +32,12 @@ reposit=`echo ${issue} |cut -d'.' -f1`
 echo 'reposit is '${reposit}
 cd ${reposit}
 pwd
-echo "pulling and resetting master"
-git fetch --all
-git branch -a
-git reset --hard origin/master
-echo "pulling and resetting "${issue}
-git branch ${issue} origin/${issue}
-git checkout ${issue}
-git fetch --all
-git reset --hard origin/${issue}
-git branch -v
-git status
+read
+curBranch=`git branch | sed -n '/\* /s///p'`
+if [ $curBranch = ${issue} ]; then
+  echo "Sorry, you can not delete branch that you are currenly on. Try branching out on different issue (not on master) and then delete this issue."
+  exit
+else
+   git branch -D ${issue}
+   git remote prune origin
+fi

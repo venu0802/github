@@ -7,9 +7,9 @@
 #
 #  General Information
 #  -------------------
-#  Shell Script Name  : changetoLocalGitDir
+#  Shell Script Name  : updatebranches.shl
 #  Process Associated : git
-#  Object Source File Location and Name : z:\github\developers\checkoutIssue.shl
+#  Object Source File Location and Name : z:\github\cm\updatebranches.shl
 #  Business Logic : 
 #   Explain business logic here.
 #
@@ -18,28 +18,30 @@
 # ------------------------------------  
 #      Date         User         Reason For Change
 #   ---------       ------     -----------------------
-#    9/18/2013       VBANGALO     Initial Creation 
+#    9/30/2013       VBANGALO     Initial Creation 
 #   
 #************************************************************************
-echo "Please enter name of issue(Like oasban.#1 etc..)"
-read issue
+echo "Please enter name of repository you want update(Like oasban/oasam etc..)"
+read reposit
+# set git directory for cm support  
 . setLocalSrv.shl
-#. setRemoteSrv.shl
 . changetoLocalGitDir.shl
-echo 'issue is '${issue}
-echo ${issue} |cut -d'.' -f1 
-reposit=`echo ${issue} |cut -d'.' -f1`
-echo 'reposit is '${reposit}
-cd ${reposit}
-pwd
-echo "pulling and resetting master"
+cd $reposit
+git checkout master
+# Need to copy from local git server.
 git fetch --all
-git branch -a
 git reset --hard origin/master
-echo "pulling and resetting "${issue}
-git branch ${issue} origin/${issue}
-git checkout ${issue}
-git fetch --all
-git reset --hard origin/${issue}
-git branch -v
-git status
+
+ for i in `git branch -a | grep origin | grep -v HEAD | grep -v master | cut -d "/" -f3`
+ do
+   git branch $i
+   git checkout $i
+   git reset --hard origin/$i
+ done
+ git checkout master
+ git status
+ echo "Make sure that branch is on master"
+ read brnc
+ 
+ 
+ 

@@ -2,20 +2,24 @@ Developer:       VBANGALO
 Project Manager: Anne Runion 
 #  General Information
 #  -------------------
-#  Reposit Name       : testrepr
-#  Issue Name         : testrepr.#1
+#  Reposit Name       : oasban
+#  Issue Name         : oasban.#1
 #  Process Associated : git
-#  Object Source File Location and Name : c:\github\testrepr.wiki\testrepr.#1.txt
+#  Object Source File Location and Name : c:\github\oasban.wiki\oasban.#1.txt.asciidoc
 
-testrepr.#1 Issue Instructions
+oasban.#1 Issue Instructions
 
 Objects added/modified in this issue:
-dbprocs\wsak_adm_appl.sql
+dbdata/table1_ins.sql
+dbtable/table2.sql
+dbgrsyn/table2_grants.sql
+dbprocs/package_name.sql
+dbprocs/package_name2.sql
+dbgrsyn/package_name2_grants.sql
 
 Instructions for DVLP:
 1) Merge issue to dvlp
 2) Run shell script and driver script from wiki
- 
 
 Instructions for PPRD:
 1) Merge issue to test

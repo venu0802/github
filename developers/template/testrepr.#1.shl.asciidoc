@@ -1,0 +1,66 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Reposit Name       : oasban
+#  Shell Script Name  : oasban.#1.shl.asciidoc
+#  Process Associated : git
+#  Object Source File Location and Name : c:\github\oasban.wiki\oasban.#1.shl.asciidoc
+#  Business Logic : 
+#   Explain business logic here.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    9/18/2013       VBANGALO     Initial Creation 
+#   
+#************************************************************************
+echo "Enter git Issue. (Like oasban.#1/oasban.#1.dvlp ..)."
+read stage
+curdir=`pwd`
+cd ../oasban
+git checkout ${stage}
+cd ${curdir}
+if [ -d ../oasban.#1 ]; then
+   rm -r -f ../oasban.#1
+fi
+
+
+mkdir ../oasban.#1
+
+# copy procedure/packages objects
+mkdir ../oasban.#1/dbprocs
+cp ../oasban/dbprocs/wsak_xxxxx1.sql ../oasban.#1/dbprocs/
+cp ../oasban/dbprocs/wsak_xxxxx2.sql ../oasban.#1/dbprocs/
+
+
+# copy tables/triggers 
+mkdir ../oasban.#1/dbtable
+cp ../oasban/dbtable/swrxxxx.sql ../oasban.#1/dbtable/
+cp ../oasban/dbtable/swvxxxx.sql ../oasban.#1/dbtable/
+cp ../oasban/dbtable/wt_swrxxx_xxxxxxx.sql ../oasban.#1/dbtable/
+
+# copy grants for objects created fitst time..
+mkdir ../oasban.#1/dbgrants
+cp ../oasban/dbgrants/wsak_xxxx1.sql ../oasban.#1/dbgrants/
+
+cp ../oasban/dbgrants/swrxxxx.sql ../oasban.#1/dbgrants/
+
+# if you have db objects, copy driver script to Issue folder
+cp  oasban.#1.sql.asciidoc ../oasban.#1/
+cd ../oasban
+echo "Are you rnning this script as CM support?(yes/no)"
+read resp
+if [ ${resp} == "yes" ];then
+  git checkout master
+	echo "Makesure branch is on master"
+	read branch
+fi	
+

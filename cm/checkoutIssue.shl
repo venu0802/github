@@ -46,4 +46,4 @@ git branch -v
 git checkout master
 git status
 echo "makesure that branch is on master"
-read bla
+read stat

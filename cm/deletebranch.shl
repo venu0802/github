@@ -25,6 +25,8 @@
 echo "in cm mergetest"
 # first merge branches to local server
 pwd
+#echo "Is issue reached prod?"
+# todo: check if issue is prod issue and if not alert cm if it is ok to issue that is not prod.
 git branch -d ${issue}
 git push origin --delete ${issue}
 git push ${rmtSrv}/${reposit}.git --delete ${issue}
