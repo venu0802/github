@@ -1,0 +1,25 @@
+SET ECHO ON
+SPOOL aisdw.#1.log
+--*****************************************************************
+--
+--      University of South Florida
+--      Banner Student System
+--      Repository Name: aisdw
+--      File Name   : aisdw.#1.sql
+
+--      File Location : c:\github\aisdw.wiki\aisdw.#1.sql.asciidoc
+--      Description : Starts all the scripts associated with package
+--
+--      Software Modifications:
+--     
+--     Version     Date        UserID         Description
+--     -------   ---------    --------        ------------------------
+--        1      10/11/2013    JULIES        Initial Creation
+--
+--*****************************************************************
+SET ECHO ON
+
+-- new table
+@dbtable\ods_revexp_ssis
+SPOOL OFF;
+EXIT;
