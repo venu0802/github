@@ -1,0 +1,54 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Reposit Name       : aisdw
+#  Shell Script Name  : aisdw.#2.shl.asciidoc
+#  Process Associated : git
+#  Object Source File Location and Name : c:\github\aisdw.wiki\aisdw.#2.shl.asciidoc
+#  Business Logic : 
+#   Explain business logic here.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    10/11/2013       Nabdelra     Initial Creation 
+#   
+#************************************************************************
+echo "Enter git Issue. (Like oasban.#1/oasban.#1.dvlp ..)."
+read stage
+curdir=`pwd`
+cd ../aisdw
+git checkout ${stage}
+cd ${curdir}
+if [ -d ../aisdw.#2 ]; then
+   rm -r -f ../aisdw.#2
+fi
+
+
+mkdir ../aisdw.#2
+
+# copy exp objects
+mkdir ../aisdw.#2/exp
+cp ../aisdw/exp/it_admr_oracle_stage_ins_c.exp ../aisdw.#2/exp/
+
+
+
+# if you have db objects, copy driver script to Issue folder
+cp  aisdw.#2.sql.asciidoc ../aisdw.#2/
+cp  aisdw.#2.txt.asciidoc ../aisdw.#2/
+cd ../aisdw
+echo "Are you rnning this script as CM support?(yes/no)"
+read resp
+if [ ${resp} == "yes" ];then
+  git checkout master
+	echo "Makesure branch is on master"
+	read branch
+fi	
