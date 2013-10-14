@@ -30,12 +30,20 @@ pwd
 git branch -m ${issue} ${brnch}
 git push origin ${brnch}
 git push origin --delete ${issue}
-git push ${rmtSrv}/${reposit}.git ${brnch}
+#git push ${rmtSrv}/${reposit}.git ${brnch}
 git push ${rmtSrv}/${reposit}.git --delete ${issue}
 echo "brnch is ${brnch}"
 echo "${localRep}/${reposit}.git/info/allowed-users"
-mysed=`echo "sed -i -e '/${brnch}/ s/^#//' ${localRep}/${reposit}.git/info/allowed-users"`
-eval $mysed
+#mysed=`echo "sed -i -e '/${brnch}/ s/^#//' ${localRep}/${reposit}.git/info/allowed-users"`
+#eval $mysed
+mysed=`echo "sed -e '/${brnch}/ s/^#//' ${localRep}/${reposit}.git/info/allowed-users"`
+echo $mysed
+eval $mysed  > ${localRep}/${reposit}.git/info/tmp.txt
+cat ${localRep}/${reposit}.git/info/tmp.txt > ${localRep}/${reposit}.git/info/allowed-users
+chmod 777 ${localRep}/${reposit}.git/info/allowed-users
+rm -r -f ${localRep}/${reposit}.git/info/tmp.txt
+
+
 #sed -i -e '/${brnch}/ s/^#//' ${localRep}/${reposit}.git/info/allowed-users
 
 

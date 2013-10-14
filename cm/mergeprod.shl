@@ -25,7 +25,7 @@
 echo "in cm mergeprod"
 # first merge branches to local server
 pwd
-git checkout master
+
 git fetch --all
 git reset --hard origin/master
 echo "creating directory ${issue}"
@@ -33,7 +33,10 @@ if [ -d ../${issue} ]; then
   rm -rf ../${issue}
 fi
 mkdir ../${issue}
-git merge ${issue} > ../${issue}/${issue}.log
+chmod 777 ../${issue}
+git checkout master
+git merge -Xtheirs ${issue} > ../${issue}/${issue}.log
+#        git merge ${issue} > ../${issue}/${issue}.log
 check=`cat ../${issue}/${issue}.log|grep -i "failed" |wc -l`
 
 if [ $check -gt 0 ]; then

@@ -1,0 +1,32 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Shell Script Name  : updatewiki.shl
+#  Process Associated : git
+#  Object Source File Location and Name : z:\github\developers\updatewiki.shl
+#  Business Logic : 
+#   Explain business logic here.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    10/3/2013       VBANGALO     Initial Creation 
+#   
+#************************************************************************
+echo "Please enter name of wiki repository you want to update(Like oasban/oasam etc..)"
+read reposit
+# set git directory for cm support  
+. setLocalSrv.shl
+. changetoLocalGitDir.shl
+cd ${reposit}.wiki
+git checkout master
+git pull ${localRep}/${reposit}.wiki.git
+git status

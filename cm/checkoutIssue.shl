@@ -21,7 +21,7 @@
 #    9/18/2013       VBANGALO     Initial Creation 
 #   
 #************************************************************************
-echo "Please enter name of issue(Like oasban.#1 etc..)"
+echo "Please enter name of issue(Like oasban.#1 or oasban.#1.dvlp or oasban.#1.test etc..)"
 read issue
 . setLocalSrv.shl
 . setRemoteSrv.shl

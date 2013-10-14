@@ -61,6 +61,8 @@ rm -r -f ${reposit}
 rm -r -f ${reposit}.wiki
 git clone ${localRep}/${reposit}.git
 git clone ${localRep}/${reposit}.wiki.git
+echo "wait approximately for 20 sec. to clone repositories".
+read wat
 cd ${reposit}
 echo "after cloning from local repository server remote is "
 git remote -v

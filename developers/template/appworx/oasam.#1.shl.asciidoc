@@ -1,0 +1,75 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Reposit Name       : oasam
+#  Shell Script Name  : oasam.#1.shl.asciidoc
+#  Process Associated : git
+#  Object Source File Location and Name : c:\github\oasam.wiki\oasam.#1.shl.asciidoc
+#  Business Logic : 
+#   Explain business logic here.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    9/18/2013       VBANGALO     Initial Creation 
+#   
+#************************************************************************
+echo "Enter git Issue. (Like oasam.#1/oasam.#1.dvlp ..)."
+read stage
+curdir=`pwd`
+cd ../oasam
+git checkout ${stage}
+cd ${curdir}
+if [ -d ../oasam.#1 ]; then
+   rm -r -f ../oasam.#1
+fi
+
+
+mkdir ../oasam.#1
+
+# copy batfiles
+cp ../oasam/bat/adm_vz_xxx.bat ../oasam.#1/
+cp ../oasam/bat/adm_vz_xxx.bat ../oasam.#1/
+cp ../oasam/bat/xxx_xxx.bat ../oasam.#1/
+cp ../oasam/dbprocs/wsak_xxxxx2.sql ../oasam.#1/dbprocs/
+
+# copy ctl files
+cp ../oasam/ctl/adm_edi_ld_act_files.ctl ../oasam.#1/
+cp ../oasam/ctl/xxx_xxx_xxxxxxxxxxxx.ctl ../oasam.#1/
+
+# copy exp files
+cp ../oasam/exp/reg_load_repeat_courses_m.exp ../oasam.#1/
+cp ../oasam/exp/xxx_xxxx_xxxxxxxxxxxxxxx.exp ../oasam.#1/
+
+# copy shell files
+cp ../oasam/shells/adm_edi_splt_files_m.shl ../oasam.#1/
+cp ../oasam/shells/xxx_xxxxxxxxxxxxxxxx.shl ../oasam.#1/
+
+# copy sql files
+cp ../oasam/sql/it_hub_tei_ld_pop_driver_m.sql ../oasam.#1/
+cp ../oasam/sql/xx_xxx_xxxxxxxxxxxxxxxxxxx.sql ../oasam.#1/
+
+# copy groovy files
+#....
+#copy jcl files
+#....
+
+# This is required. Do delete code from here to end.
+
+cp  oasam.#1.txt.asciidoc ../oasam.#1/
+
+echo "Are you rnning this script as CM support?(yes/no)"
+read resp
+if [ ${resp} == "yes" ];then
+  git checkout master
+  echo "Makesure branch is on master"
+  read branch
+fi  

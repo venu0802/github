@@ -31,5 +31,7 @@ read reposit
 echo "creating repositroy from remote github"
 git clone ${localRep}/${reposit}.git
 git clone ${localRep}/${reposit}.wiki.git
+echo "Please wait for 20 sec. and then press Enter Key"
+read wat
 cd ${reposit}
 git status

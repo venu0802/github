@@ -30,6 +30,11 @@ echo 'issue is '${issue}
 echo ${issue} |cut -d'.' -f1 
 reposit=`echo ${issue} |cut -d'.' -f1`
 echo 'reposit is '${reposit}
+cd ${reposit}.wiki
+git fetch --all
+git checkout master
+git reset --hard origin/master
+cd ../
 cd ${reposit}
 pwd
 echo "pulling and resetting master"

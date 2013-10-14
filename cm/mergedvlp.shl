@@ -23,18 +23,61 @@
 #************************************************************************
 . checkoutissue.shl
 echo "in mergedvlp cm"
-# first merge branches to local server
 pwd
-git checkout dvlp
-git fetch --all
-git reset --hard origin/dvlp
+git checkout ${issue}
 echo "creating directory ${issue}"
 if [ -d ../${issue} ]; then
   rm -rf ../${issue}
 fi
 
 mkdir ../${issue}
-git merge ${issue} > ../${issue}/${issue}.log
+chmod 777 ../${issue}
+# get all branches with dvlp extention
+
+# get all changes made by this issue
+git diff --name-status master | grep ^M | cut -f2 > ../${issue}/${issue}_master.txt
+chmod 777 ../${issue}/${issue}_master.txt
+
+for br in `git branch | grep dvlp$ | grep \#`
+do
+   # check if there are any files that have modified and common in other branches also
+   if [ `git diff --name-status  $br..master | grep ^M | cut -f2 | wc -l` -gt 0 ];then
+      git diff --name-status  $br ..master | grep ^M | cut -f2  >  ../${issue}/${issue}_branch.txt
+      IFS=$'\n'       # make newlines the only separator
+      set -f          # disable globbing
+      for i in $(cat ../${issue}/${issue}_master.txt); do
+        if [ `grep $i ../${issue}/${issue}_branch.txt | wc -l` -gt 0 ];then
+          echo " ${br}  $i" >> ../${issue}/${issue}_status.txt
+          echo " ${br}  $i"
+          read bla
+          chmod 777 ../${issue}/${issue}_status.txt
+        fi
+      done
+	  #if [ `grep -Fx -f ../${issue}/${issue}_master.txt ../${issue}/${issue}_branch.txt | wc -l` -gt 0 ];then
+	     #echo $br >>  ../${issue}/${issue}_status.txt
+         #echo "---------------" >>  ../${issue}/${issue}_status.txt
+		 #grep -Fx -f ../${issue}/${issue}_master.txt ../${issue}/${issue}_branch.txt >> ../${issue}/${issue}_status.txt
+		 #chmod 777 ../${issue}/${issue}_status.txt
+	  #fi
+   fi
+done 
+if [ -f  ../${issue}/${issue}_status.txt ];then
+   cat ../${issue}/${issue}_status.txt
+   echo "There are some conflicts in this issue as shown above. Are these resolved?"
+   read res
+   if [ $res == "no" ]; then
+   echo " Please check with developers. Ok?"
+   read cnflt
+   git checkout master
+   exit 2
+   fi
+fi
+
+# first merge branches to local server
+git checkout dvlp
+git fetch --all
+git reset --hard origin/dvlp
+git merge -Xtheirs ${issue} > ../${issue}/${issue}.log
 check=`cat ../${issue}/${issue}.log|grep -i "failed" |wc -l`
 if [ $check -gt 0 ]; then
   git status >> ../${issue}/${issue}.log
@@ -64,12 +107,16 @@ if [ $check -gt 0 ]; then
 else
   echo "creating branch issue.dvlp"
   git branch -m ${issue} ${issue}.dvlp
+  git checkout ${issue}.dvlp
   git branch -d ${issue}
   echo "pushing branch issue.dvlp"
   git checkout ${issue}.dvlp
   git push origin ${issue}.dvlp
    echo "pushing branch delete issue"
+  git status
   git push origin --delete ${issue}
+  git status
+  
   git push origin dvlp
   stat=$?
   echo "status is ${stat}"
@@ -77,15 +124,17 @@ else
     echo "pushing to remote server"
     git push ${rmtSrv}/${reposit}.git ${issue}.dvlp
     git push ${rmtSrv}/${reposit}.git dvlp
+    git push ${rmtSrv}/${reposit}.git --delete ${issue}
     echo `pwd`
-    #cd ../${reposit}.wiki
-    #echo `pwd`
-    #git pull origin master
-    #echo " going to push ${rmtSrv}/${reposit}.wiki.git"
-    #git push ${rmtSrv}/${reposit}.wiki.git master
-	## change developer privileges to issue.dvlp. This will stop develpoer accidentally pushing his changes after issue is merged to dvlp.
-	mysed=`echo "sed -i -e '/${issue}/ s/^/#/' ${localRep}/${reposit}.git/info/allowed-users"`
-    eval $mysed
+    ## change developer privileges to issue.dvlp. This will stop develpoer accidentally pushing his changes after issue is merged to dvlp.
+    
+    mysed=`echo "sed -e '/${issue}/ s/^/#/' ${localRep}/${reposit}.git/info/allowed-users"`
+    echo $mysed
+    eval $mysed  > ${localRep}/${reposit}.git/info/tmp.txt
+    cat ${localRep}/${reposit}.git/info/tmp.txt > ${localRep}/${reposit}.git/info/allowed-users
+    chmod 777 ${localRep}/${reposit}.git/info/allowed-users
+    rm -r -f ${localRep}/${reposit}.git/info/tmp.txt
+    
     cd ../${reposit}
   else 
     echo "could not push to local server and hence not pushing to remote"

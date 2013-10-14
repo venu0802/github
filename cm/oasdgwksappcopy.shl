@@ -1,0 +1,35 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Shell Script Name  : mergedvlp
+#  Process Associated : git
+#  Object Source File Location and Name : z:\github\cm\oasdgwksappcopy.shl
+#  Business Logic : 
+#   Explain business logic here.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    9/18/2013       VBANGALO     Initial Creation 
+#   
+#************************************************************************
+. checkoutissue.shl
+echo "in oasdgwksappcopy cm"
+pwd
+#git checkout ${issue}
+git checkout master
+echo ${issue} |cut -d'.' -f1 
+reposit=`echo ${issue} |cut -d'.' -f1`
+echo 'reposit is '${reposit}
+
+cp ../${reposit}.wiki/${issue}.bat.asciidoc AppServerObjects/usf/cm/${issue}.bat
+cp ../${reposit}.wiki/${issue}.shl.asciidoc AppServerObjects/usf/cm/${issue}.shl
+

@@ -1,0 +1,23 @@
+1.	Modify objects on c:\github\oasbog
+2.	All supporting docs go to c:\github\oasbog.wiki
+3.	Open gitbash
+	a.	Goto oasbog.wiki
+	b.	Run oasbog. #<issue number>.shl.asciidoc
+	c.	This will create a folder c:\github\oasbog. #<issue number>
+4.	Now test your modified objects, by running the file oasbog.#1.sql.asciidoc  under c:\github\oasbog#<issue number>
+5.	Check your log 
+	a.	if everything ok, commit and push (explained below)
+	b.	if not ok, go back and change your objects under c:\github\oasbog and NOT under c:\github\oasbog. #<issue number>.  Then re-do step 3 (from above) and step 4, till the log is clean
+6.	If log is clean, go to c:\github\oasbog, right-click and choose git GUI
+	a.	Here you will see your modified objects under “Unstaged Changes”
+	b.	Click “Stage Changed” and the above objects will move down to the “Staged Changes” area
+	c.	Then put in a message like repositoryname.#<issue number> - changes made for …….. and then hit Commit
+
+	d.	Now hit PUSH and If SUCCESS continue to next step, else VENU for updatewiki.shl
+7.	Now we need to do the same for the supporting documents
+	a.	Here you will see your modified documents under “Unstaged Changes”
+	b.	Click “Stage Changed” and the above objects will move down to the “Staged Changes” area
+	c.	Then put in a message like repositoryname.#<issue number> - changes made for …….. and then hit Commit
+	d.	Now hit PUSH and If SUCCESS continue to next step, else VENU for updatewiki.shl
+8.	Now time to send an email to cmsupport to promote the issue to DVLP.
+

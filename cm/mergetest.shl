@@ -23,42 +23,92 @@
 #************************************************************************
 . checkoutissue.shl
 echo "in cm mergetest"
-# first merge branches to local server
+
 pwd
-git checkout test
-git fetch --all
-git reset --hard origin/test
 echo "creating directory ${issue}"
 if [ -d ../${issue} ]; then
   rm -rf ../${issue}
 fi
 mkdir ../${issue}
-git merge ${issue} > ../${issue}/${issue}.log
-check=`cat ../${issue}/${issue}.log|grep -i "failed" |wc -l`
+chmod 777 /..${issue}
+# get all branches with test extention
+git checkout ${issue}
+# get all changes made by this issue
+git diff --name-status master | grep ^M | cut -f2 > ../${issue}/${issue}_master.txt
+chmod 777 ../${issue}/${issue}_master.txt
 
+for br in `git branch | grep test$ | grep \#`
+do
+   # check if there are any files that have modified and common in other branches also
+   if [ `git diff --name-status  $br ..master | grep ^M | cut -f2 | wc -l` -gt 0 ];then
+      git diff --name-status  $br ..master | grep ^M | cut -f2  >>  ../${issue}/${issue}_branch.txt
+      IFS=$'\n'       # make newlines the only separator
+      set -f          # disable globbing
+      for i in $(cat ../${issue}/${issue}_master.txt); do
+        echo $i
+        echo "grepping from "
+        cat ../${issue}/${issue}_branch.txt
+        grep $i ../${issue}/${issue}_branch.txt
+        if [ `grep $i ../${issue}/${issue}_branch.txt | wc -l` -gt 0 ];then
+          echo " ${br}  $i" >> ../${issue}/${issue}_status.txt
+          echo " ${br}  $i"
+          chmod 777 ../${issue}/${issue}_status.txt
+        fi
+      done
+	  #if [ `grep -Fx -f ../${issue}/${issue}_master.txt ../${issue}/${issue}_branch.txt | wc -l` -gt 0 ];then
+	     #echo $br >>  ../${issue}/${issue}_status.txt
+         #echo "---------------" >>  ../${issue}/${issue}_status.txt
+		 #grep -Fx -f ../${issue}/${issue}_master.txt ../${issue}/${issue}_branch.txt >> ../${issue}/${issue}_status.txt
+		 #chmod 777 ../${issue}/${issue}_status.txt
+	  #fi
+   fi
+done 
+if [ -f  ../${issue}/${issue}_status.txt ];then
+   cat ../${issue}/${issue}_status.txt
+   echo "There are some conflicts in this issue as shown above. Are these resolved?"
+   read res
+   if [ $res == "no" ]; then
+     echo " Please check with developers. Ok?"
+     read cnflt
+     exit 2
+   fi
+fi
+git checkout test
+git fetch --all
+git reset --hard origin/test
+# first merge branches to local server
+git merge -Xtheirs ${issue} > ../${issue}/${issue}.log
+check=`cat ../${issue}/${issue}.log|grep -i "failed" |wc -l`
 if [ $check -gt 0 ]; then
-  git status >> ../${issue}/${issue}.log
-  cat ../${issue}/${issue}.log | grep CONFLICT | sed 's/.*conflict in //' > ../${issue}/${issue}_merge.txt
-  echo "** before abort file status" >> ../${issue}/${issue}_status.txt
-  for i in `cat ../${issue}/${issue}_merge.txt`
-  do
-    cp $i ../${issue}/.
-	echo "" >> ../${issue}/${issue}_status.txt
-	echo "**********" >> ../${issue}/${issue}_status.txt
-	echo $i >> ../${issue}/${issue}_status.txt
-	echo "in test branch" >> ../${issue}/${issue}_status.txt
-	echo "--------------" >> ../${issue}/${issue}_status.txt
-	git log -1 test  --decorate $i >> ../${issue}/${issue}_status.txt
-	echo "in ${issue} branch" >> ../${issue}/${issue}_status.txt
-	echo "---------------------" >> ../${issue}/${issue}_status.txt
-	git log -1 ${issue}  --decorate $i >> ../${issue}/${issue}_status.txt
-	#git log -10 test ${issue} --decorate $i >> ../${issue}/${issue}_status.txt
-	
-  done
-  git merge --abort
-  git checkout master
   echo "could not be merged. Please check with developer. Make sure branch is on master. Ok?"
   read bla
+  git checkout master
+#git merge ${issue} > ../${issue}/${issue}.log
+#check=`cat ../${issue}/${issue}.log|grep -i "failed" |wc -l`
+
+#if [ $check -gt 0 ]; then
+  #git status >> ../${issue}/${issue}.log
+  #cat ../${issue}/${issue}.log | grep CONFLICT | sed 's/.*conflict in //' > ../${issue}/${issue}_merge.txt
+  #echo "** before abort file status" >> ../${issue}/${issue}_status.txt
+  #for i in `cat ../${issue}/${issue}_merge.txt`
+  #do
+    #cp $i ../${issue}/.
+	#echo "" >> ../${issue}/${issue}_status.txt
+	#echo "**********" >> ../${issue}/${issue}_status.txt
+	#echo $i >> ../${issue}/${issue}_status.txt
+	#echo "in test branch" >> ../${issue}/${issue}_status.txt
+	#echo "--------------" >> ../${issue}/${issue}_status.txt
+	#git log -1 test  --decorate $i >> ../${issue}/${issue}_status.txt
+	#echo "in ${issue} branch" >> ../${issue}/${issue}_status.txt
+	#echo "---------------------" >> ../${issue}/${issue}_status.txt
+	#git log -1 ${issue}  --decorate $i >> ../${issue}/${issue}_status.txt
+	##git log -10 test ${issue} --decorate $i >> ../${issue}/${issue}_status.txt
+	
+  #done
+  #git merge --abort
+  #git checkout master
+  #echo "could not be merged. Please check with developer. Make sure branch is on master. Ok?"
+  #read bla
 else
   brnch=`echo $issue | sed s/\.dvlp/\.test/`
   echo "creating branch issue.test"

@@ -1,0 +1,35 @@
+grep -Fx -f ../${issue}/${issue}_master.txt ../${issue}/${issue}_branch.txt
+comm -12 oasban.#3_master.txt oasban.#3_branch.txt
+
+grep -f oasban.#3_master.txt oasban.#3_branch.txt
+grep -f oasban.#3_master.txt oasban.#3_branch.txt
+
+
+comm -12 oasban.#3_master.txt oasban.#3_branch.txt
+
+grep -f oasban.#3_master.txt oasban.#3_branch.txt
+grep -f oasban.#3_master.txt oasban.#3_branch.txt
+
+cat oasban.#3_master.txt oasban.#3_branch.txt | sort -u | uniq -d
+
+grep -Fx -f oasban.#3_master.txt oasban.#3_branch.txt
+egrep -Fx -f oasban.#3_master.txt oasban.#3_branch.txt
+grep -F -f oasban.#3_master.txt oasban.#3_branch.txt
+
+good
+grep -Fx -f oasban.#3_branch.txt oasban.#3_master.txt
+grep -Fx -f "oasban.#3_master.txt" oasban.#3_branch.txt
+
+
+for i in read
+
+
+IFS=$'\n'       # make newlines the only separator
+set -f          # disable globbing
+for i in $(cat "oasban.#3_master.txt"); do
+  echo "tester: $i"
+done
+
+join oasban.#3_master.txt oasban.#3_branch.txt
+
+grep "unix/cob/RPEDISBS.pco" oasban.#3_master.txt

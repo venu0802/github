@@ -1,20 +1,20 @@
 SET ECHO ON
-SPOOL oasban.#1.log
+SPOOL xxxxxx.#x.log
 --*****************************************************************
 --
 --      University of South Florida
 --      Banner Student System
 --      Repository Name: oasban
---      File Name   : oasban.#1.sql
+--      File Name   : xxxxxx.#x.sql
 
---      File Location : c:\github\oasban.wiki\oasban.#1.sql.asciidoc
+--      File Location : c:\github\oasban.wiki\xxxxxx.#x.sql.asciidoc
 --      Description : Starts all the scripts associated with package
 --
 --      Software Modifications:
 --     
 --     Version     Date        UserID         Description
 --     -------   ---------    --------        ------------------------
---        1      9/30/2013    VBANGALO        Initial Creation
+--        1      10/10/2013    VBANGALO        Initial Creation
 --
 --*****************************************************************
 SET ECHO ON

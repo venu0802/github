@@ -1,13 +1,15 @@
 Developer:       VBANGALO
-Project Manager: Anne Runion 
+Project Manager: Manager Name 
 #  General Information
 #  -------------------
-#  Reposit Name       : oasban
-#  Issue Name         : oasban.#1
+#  Repository Name       : oasban
+#  Issue Name         : oasban.#x
 #  Process Associated : git
-#  Object Source File Location and Name : c:\github\oasban.wiki\oasban.#1.txt.asciidoc
+#  Project Number : 13-0110 or RNS issue IN001212
+#  Project Description: DGW upgrade 4.1.3 or Repeat surcharge
+#  Object Source File Location and Name : c:\github\oasban.wiki\oasban.#x.txt.asciidoc
 
-oasban.#1 Issue Instructions
+oasban.#x Issue Instructions
 
 Objects added/modified in this issue:
 dbdata/table1_ins.sql
@@ -19,12 +21,12 @@ dbgrsyn/package_name2_grants.sql
 
 Instructions for DVLP:
 1) Merge issue to dvlp
-2) Run shell script and driver script from wiki
+2) Run shell script from wiki and driver script from oasban.#x folder
 
 Instructions for PPRD:
 1) Merge issue to test
-2) Run shell script and driver script from wiki
+2) Run shell script from wiki and driver script from oasban.#x folder
 
 Instructions for PROD:
-1) Merge issue to prod
-2) Run shell script and driver script from wiki
+1) Merge issue to prod (CMSupport)
+2) Run driver script (DBA)

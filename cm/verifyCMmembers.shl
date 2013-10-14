@@ -1,0 +1,32 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Shell Script Name  : verifyCMmembers.shl
+#  Process Associated : git
+#  Object Source File Location and Name : z:\github\cm\verifyCMmembers.shl
+#  Business Logic : 
+#   Explain business logic here.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    10/9/2013       VBANGALO     Initial Creation 
+#   
+#************************************************************************
+echo "Please enter name of repository(Like oasban or oasam etc..)"
+read reposit
+. setLocalSrv.shl
+. setRemoteSrv.shl
+. changetoLocalGitDir.shl
+echo 'reposit is '${reposit}
+
+echo "Currently following CMids can change master."
+cat ${localRep}/${reposit}.git/info/allowed-users | grep "master"

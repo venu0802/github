@@ -8,9 +8,9 @@
 #  General Information
 #  -------------------
 #  Reposit Name       : oasban
-#  Shell Script Name  : oasban.#1.shl.asciidoc
+#  Shell Script Name  : oasban.#x.shl.asciidoc
 #  Process Associated : git
-#  Object Source File Location and Name : c:\github\oasban.wiki\oasban.#1.shl.asciidoc
+#  Object Source File Location and Name : c:\github\oasban.wiki\oasban.#x.shl.asciidoc
 #  Business Logic : 
 #   Explain business logic here.
 #
@@ -19,7 +19,7 @@
 # ------------------------------------  
 #      Date         User         Reason For Change
 #   ---------       ------     -----------------------
-#    9/18/2013       VBANGALO     Initial Creation 
+#    10/10/2013       VBANGALO     Initial Creation 
 #   
 #************************************************************************
 echo "Enter git Issue. (Like oasban.#1/oasban.#1.dvlp ..)."
@@ -28,33 +28,34 @@ curdir=`pwd`
 cd ../oasban
 git checkout ${stage}
 cd ${curdir}
-if [ -d ../oasban.#1 ]; then
-   rm -r -f ../oasban.#1
+if [ -d ../oasban.#x ]; then
+   rm -r -f ../oasban.#x
 fi
 
 
-mkdir ../oasban.#1
+mkdir ../oasban.#x
 
 # copy procedure/packages objects
-mkdir ../oasban.#1/dbprocs
-cp ../oasban/dbprocs/wsak_xxxxx1.sql ../oasban.#1/dbprocs/
-cp ../oasban/dbprocs/wsak_xxxxx2.sql ../oasban.#1/dbprocs/
+mkdir ../oasban.#x/dbprocs
+cp ../oasban/dbprocs/wsak_xxxxx1.sql ../oasban.#x/dbprocs/
+cp ../oasban/dbprocs/wsak_xxxxx2.sql ../oasban.#x/dbprocs/
 
 
 # copy tables/triggers 
-mkdir ../oasban.#1/dbtable
-cp ../oasban/dbtable/swrxxxx.sql ../oasban.#1/dbtable/
-cp ../oasban/dbtable/swvxxxx.sql ../oasban.#1/dbtable/
-cp ../oasban/dbtable/wt_swrxxx_xxxxxxx.sql ../oasban.#1/dbtable/
+mkdir ../oasban.#x/dbtable
+cp ../oasban/dbtable/swrxxxx.sql ../oasban.#x/dbtable/
+cp ../oasban/dbtable/swvxxxx.sql ../oasban.#x/dbtable/
+cp ../oasban/dbtable/wt_swrxxx_xxxxxxx.sql ../oasban.#x/dbtable/
 
 # copy grants for objects created fitst time..
-mkdir ../oasban.#1/dbgrants
-cp ../oasban/dbgrants/wsak_xxxx1.sql ../oasban.#1/dbgrants/
+mkdir ../oasban.#x/dbgrsyn
+cp ../oasban/dbgrsyn/wsak_xxxx1.sql ../oasban.#x/dbgrsyn/
 
-cp ../oasban/dbgrants/swrxxxx.sql ../oasban.#1/dbgrants/
+cp ../oasban/dbgrsyn/swrxxxx.sql ../oasban.#x/dbgrsyn/
 
 # if you have db objects, copy driver script to Issue folder
-cp  oasban.#1.sql.asciidoc ../oasban.#1/
+cp  oasban.#x.sql.asciidoc ../oasban.#x/
+cp  oasban.#x.txt.asciidoc ../oasban.#x/
 cd ../oasban
 echo "Are you rnning this script as CM support?(yes/no)"
 read resp
@@ -63,4 +64,3 @@ if [ ${resp} == "yes" ];then
 	echo "Makesure branch is on master"
 	read branch
 fi	
-

@@ -1,0 +1,41 @@
+#  General Information
+#  -------------------
+#  Reposit Name       : oasam
+#  Issue Name         : oasam.#1
+#  Process Associated : git
+#  Object Source File Location and Name : c:\github\oasam.wiki\oasam.#1.txt.asciidoc
+#  Developer:       VBANGALO
+#  Project Manager: Annre Runion
+
+exp\xxx1_m.exp
+exp\xxx2_m.exp
+exp\xxx3_c.exp
+sql\xxx1_m.shl
+shells\xxx2_m.shl
+
+
+Name                                Type                  Application 
+---------------------------------------------------------------------
+shells\xxx2_m.shl                   SCRIPT                OASIS
+sql\xxx1_m.sql                      SCRIPT                OASIS
+exp\xxx1_m.exp                      JOB                   OASIS
+exp\xxx2_m.exp                      JOB                   OASIS               
+exp\xxx3_c.exp                      PROCESS FLOW          OASIS    
+
+Instructions
+-------------------------------------------
+ 
+Special Instructions for SFADVLP
+Move .shl to unix directory in Trusty: /home/appworx-wd/dvlp/oasis/shells
+Move .sql to unix directory in Trusty: /home/appworx-wd/dvlp/oasis/sql
+ 
+Special Instructions for SFAUAT
+Move .shl to unix directory in truly: /home/appworx-wd/uat/oasis/shells
+Move .sql to unix directory in truly: /home/appworx-wd/uat/oasis/sql
+Move .shl to unix directory in wh5000: /home/appworx-wd/uat/oasis/shells
+Move .sql to unix directory in wh5000: /home/appworx-wd/uat/oasis/sql
+
+
+Special Instructions for SFAPROD
+Move .shl to unix directory in thor: /home/appworx-wd/thor/oasis/shells
+Move .sql to unix directory in thor: /home/appworx-wd/thor/oasis/sql

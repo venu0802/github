@@ -34,7 +34,12 @@ cd ${reposit}
 pwd
 echo "Enter new user OSID to work on issue ${issue}. (Like vbangalo instead of venu0802)"
 read userId
-sed -i -e '/${issue}/ s/$/  ${userId}/' ${localRep}/${reposit}.git/info/allowed-users
+mysed=`echo "sed -e '/${issue}/ s/$/  ${userId}/' ${localRep}/${reposit}.git/info/allowed-users"`
+echo $mysed
+eval $mysed  > ${localRep}/${reposit}.git/info/tmp.txt
+cat ${localRep}/${reposit}.git/info/tmp.txt > ${localRep}/${reposit}.git/info/allowed-users
+rm -r -f ${localRep}/${reposit}.git/info/tmp.txt
+
 echo "Currently following users can change ${issue} branch."
 cat ${localRep}/${reposit}.git/info/allowed-users | grep "${issue}"
 
