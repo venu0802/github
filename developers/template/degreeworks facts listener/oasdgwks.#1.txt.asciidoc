@@ -1,0 +1,62 @@
+# Developer:       VBANGALO
+# Project Manager: Manager Name 
+#  General Information
+#  -------------------
+#  Repository Name       : oasdgwks
+#  Issue Name         : oasdgwks.#1
+#  Process Associated : git
+#  Project Number : 13-0110 or RNS issue IN001212
+#  Project Description: DGW upgrade 4.1.3 or Repeat surcharge
+#  Object Source File Location and Name : c:\github\oasdgwks.wiki\oasdgwks.#1.txt.asciidoc
+
+#####
+NOTE: DO NOT RUN oasdgwks.#1.shl.asciidoc from c:\cmgithub\oasdgwks.wiki folder. Follow as per the instructions in this document.
+#####
+
+# Specify all the objects modified by you. For example, if you modified RemoteShopAudit.config, changeCommonAuditConfig.shl then
+
+AppServerObjects\usf\java\audits\config\RemoteShopAudit.config
+AppServerObjects\usf\exe\changeCommonAuditConfig.shl
+
+Instructions to dvlp environment:
+1. Run Check documentation and merge to development.
+
+Instructions for test environment:
+
+1. Run Check documentation and merge to test.
+2. Open GIT GUI from c:\cmgithub\cm folder and run oasdgwksappcopy.shl
+3. In command window, go to c:\cmgithub\cm\oasdgwks\AppServerObjects\usf\cm and run oasdgwks.#1.bat  (This should generate audits.jar file and copy other files to cm support.)
+4. Connect to dgwapppp.forest.usf.edu  using WinSCP.
+5. In WinSCP, except .bat files, move remaining files from cm folder in windows to /home/dgw/prod/usf/cmsupport folder.(jar files should be copied in binary mode and remaining as text mode)
+6. Select all files in WinSCP unix side and change privileges to read, write, execute to ALL.
+7. Open GIT GUI from c:\cmgithub\cm folder and run oasdgwksappdelete.shl
+8. Perform following steps on dgwapppp.forest.usf.edu server.
+( 1. Connect to dgwapppp.forest.usf.edu with dgw userid and go to /home/dgw/prod/usf/cmsupport folder.
+  2. Run oasdgwks.#1.shl
+  3. cd ../exe
+  4. run stopFactsListener.shl
+  5. run(with params) changeCommonAuditConfig.shl ChangeDBserver truly.cfr.usf.edu 1526
+  6. run(with params) changeCommonAuditConfig.shl changeDegreeWorksURL https://dgwapppp.forest.usf.edu/prod/
+  7. run startFactsListener.shl 
+)
+
+
+Instructions for production  environment: 
+
+1. Run Check documentation and merge to prod.
+2. Open GIT GUI from c:\cmgithub\cm folder and run oasdgwksappcopy.shl
+3. In command window, go to c:\cmgithub\cm\oasdgwks\AppServerObjects\usf\cm and run oasdgwks.#1.bat  (This should generate audits.jar file and copy other files to cm support.)
+4. Connect to dgwapp1.forest.usf.edu using WinSCP.
+5. In WinSCP, except .bat files, move remaining files from cm folder in windows to /home/dgw/prod/usf/cmsupport folder.
+6. Select all files in unix side and change privileges to read, write, execute to ALL.
+7. Repeat 4,5,6 steps for dgwapp2.forest.usf.edu, dgwapp3.forest.usf.edu production servers.
+8. Open GIT GUI from c:\cmgithub\cm folder and run oasdgwksappdelete.shl
+9. Send following instructions to *Banner Support DL
+(1. Connect to  dgwapp1.forest.usf.edu/dgwapp2.forest.usf.edu/dgwapp3.forest.usf.edu with dgw userid and go to /home/dgw/prod/usf/cmsupport folder.
+ 2. Run oasdgwks.#1.shl
+ 3. cd ../exe
+ 4. run stopFactsListener.shl
+ 5. run (with params) changeCommonAuditConfig.shl ChangeDBserver usfprodb1.it.usf.edu 1526
+ 6. run (with params) changeCommonAuditConfig.shl changeDegreeWorksURL https://degreeworks.usf.edu/prod/
+ 7. run startFactsListener.shl only in  dgwapp1.forest.usf.edu server. For other production servers, DO NOT RUN startFactsListener.shl
+)

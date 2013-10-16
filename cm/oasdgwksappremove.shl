@@ -9,7 +9,7 @@
 #  -------------------
 #  Shell Script Name  : mergedvlp
 #  Process Associated : git
-#  Object Source File Location and Name : z:\github\cm\oasdgwksappcopy.shl
+#  Object Source File Location and Name : z:\github\cm\oasdgwksappremove.shl
 #  Business Logic : 
 #   Explain business logic here.
 #
@@ -30,6 +30,13 @@ echo ${issue} |cut -d'.' -f1
 reposit=`echo ${issue} |cut -d'.' -f1`
 echo 'reposit is '${reposit}
 
-cp ../${reposit}.wiki/${issue}.bat.asciidoc AppServerObjects/usf/cm/${issue}.bat
-cp ../${reposit}.wiki/${issue}.shl.asciidoc AppServerObjects/usf/cm/${issue}.shl
+
+
+
+git clean -f
+
+git status
+
+find AppServerObjects/usf/cm/* -type f -prune
+
 

@@ -62,7 +62,7 @@ cp ../oasam/sql/xx_xxx_xxxxxxxxxxxxxxxxxxx.sql ../oasam.#1/
 #copy jcl files
 #....
 
-# This is required. Do delete code from here to end.
+# This is required. Do NOT delete code from here to end.
 
 cp  oasam.#1.txt.asciidoc ../oasam.#1/
 

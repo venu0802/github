@@ -29,6 +29,8 @@ read reposit
 cd $reposit
 git checkout master
 # Need to copy from local git server.
+git branch -D `git branch | awk  '{ if ($0 !~ /master/) printf "%s", $0 }'`
+git branch -d -r `git branch -ar | awk  '{ if ($0 !~ /master/) printf "%s", $0 }'`
 git fetch --all
 git reset --hard origin/master
 
@@ -40,6 +42,18 @@ git reset --hard origin/master
  done
  git checkout master
  git status
+
+#git fetch --all
+#git reset --hard origin/master
+
+# for i in `git branch -a | grep origin | grep -v HEAD | grep -v master | cut -d "/" -f3`
+# do
+#   git branch $i
+#   git checkout $i
+#   git reset --hard origin/$i
+# done
+# git checkout master
+# git status
  echo "Make sure that branch is on master"
  read brnc
  

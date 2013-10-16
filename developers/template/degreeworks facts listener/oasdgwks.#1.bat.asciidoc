@@ -1,0 +1,19 @@
+REM **************************************************************************
+REM     University of South Florida
+REM     Banner Student System
+REM 
+REM     File Name: c:\github\oasdgwks.wiki\oasdgwks.#1.bat.asciidoc
+REM 
+REM     Software Modifications:
+REM 
+REM    Issue     Date         UserID     Description
+REM    -------   -----------  --------   -----------------------------------
+REM   oasdgwks.#1 10/14/2013   vbangalo  Copies all objects 
+REM                                      to cm folder from corresponding folders 
+REM                                      in workingdirectory.
+REM **************************************************************************
+
+REM Copy all objects you modified. For example, if you modified RemoteShopAudit.config, changeCommonAuditConfig.shl then
+copy ..\java\audits\config\RemoteShopAudit.config
+copy ..\exe\changeGuestAuditConfig.shl
+compile.bat

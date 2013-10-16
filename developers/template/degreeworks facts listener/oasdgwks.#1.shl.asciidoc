@@ -1,0 +1,32 @@
+#!/usr/bin/ksh
+#--**************************************************************************
+#--    University of South Florida
+#--    Banner Student System
+#--
+#--    File Name: c:\github\oasdgwks.wiki\oasdgwks.#1.shl.asciidoc
+#--
+#--    Software Modifications:
+#--
+#--    Issue    Date         UserID     Description
+#--    -------  -----------  --------   -----------------------------------
+#--  oasdgwks.#1 10/14/2013   vbangalo   Copies objects from cmsupport folder
+#--                                     to corresponding folders in appserver.
+#--
+#--**************************************************************************
+# do not change this start
+curpd=`pwd`
+cp audits.jar ../java/audits/
+# do not change this end
+# Copy all objects you modified. For example, if you modified RemoteShopAudit.config, changeCommonAuditConfig.shl then
+cp RemoteShopAudit.config ../java/audits/config/
+cp changeCommonAuditConfig.shl ../exe/
+chmod 775 ../exe/*.*
+
+# do not change code from this point until end
+rm -f *.*
+cd ../audits
+stopFactsListener.shl
+cd $curpd
+cd ../exe
+stopFactsListener.shl
+cd $curpd
