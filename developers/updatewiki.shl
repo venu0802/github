@@ -23,7 +23,7 @@
 #************************************************************************
 echo "Please enter name of wiki repository you want to update(Like oasban/oasam etc..)"
 read reposit
-# set git directory for cm support  
+# set git directory for developer
 . setLocalSrv.shl
 . changetoLocalGitDir.shl
 cd ${reposit}.wiki

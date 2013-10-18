@@ -1,0 +1,55 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Shell Script Name  : createIssueBranch.shl
+#  Process Associated : git
+#  Object Source File Location and Name : z:\github\cm\dbcommit.shl
+#  Business Logic : 
+#   Make sure that issue is created in githubserver <<reposit>>.#<issue>> format.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    9/16/2013       VBANGALO     Initial Creation 
+#   
+#************************************************************************
+curdir=`pwd`
+echo "Please enter name of issue(Like oasban.#1 etc..)"
+read issue
+echo 'issue is '${issue}
+. setRemoteSrv.shl
+. setLocalSrv.shl
+echo ${issue} |cut -d'.' -f1 
+reposit=`echo ${issue} |cut -d'.' -f1`
+echo 'reposit is '${reposit}
+. changetoLocalGitDir.shl
+cd ${issue}
+pwd
+echo "Need to run guralt? (yes/no)"
+read ans
+TNS_ADMIN=//yemaya/Apps/ora102/NETWORK/ADMIN
+   export TNS_ADMIN
+   echo "Enter database Instance (like PPRD/PPRDUPG/DWTEST...)"
+   read dbinst
+   echo "Enter database user id"
+   read dbuser
+   read -s -p "Enter Password: " password
+   #read password
+if [ $ans == "yes" ];then
+   
+   echo exit | sqlplus ${dbuser}/${password}@${dbinst} @../${reposit}.wiki/guralter_git.sql before_guralt.sql "spool before_guralt.log"
+   sqlplus ${dbuser}/${password}@${dbinst} @${issue}.sql.asciidoc
+   echo exit | sqlplus ${dbuser}/${password}@${dbinst} @../${reposit}.wiki/guralter_git.sql after_guralt.sql "spool after_guralt.log"
+else
+   sqlplus ${dbuser}/${password}@${dbinst} @${issue}.sql.asciidoc
+fi
+
+
