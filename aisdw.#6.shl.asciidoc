@@ -1,0 +1,53 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Data Warehouse System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Reposit Name       : aisdw
+#  Shell Script Name  : aisdw.#6.shl.asciidoc
+#  Process Associated : git
+#  Object Source File Location and Name : c:\github\aisdw.wiki\aisdw.#6.shl.asciidoc
+#  Business Logic : 
+#   This script will process files for issue aisdw.#6 to modify appl_admits_admr_plus and appl_admits_admr table and view comments.
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    10/21/2013     JULIES       Modify table and view comments 
+#   
+#************************************************************************
+echo "Enter git Issue. (Like aisdw.#6/aisdw.#6.dvlp ..)."
+read stage
+curdir=`pwd`
+cd ../aisdw
+git checkout ${stage}
+cd ${curdir}
+if [ -d ../aisdw.#6 ]; then
+   rm -r -f ../aisdw.#6
+fi
+
+
+mkdir ../aisdw.#6
+
+# copy tables/triggers 
+mkdir ../aisdw.#6/dbtable
+cp ../aisdw/dbtable/appl_admits_admr_comments.sql ../aisdw.#6/dbtable/
+
+
+# if you have db objects, copy driver script to Issue folder
+cp  aisdw.#6.sql.asciidoc ../aisdw.#6/
+cp  aisdw.#6.txt.asciidoc ../aisdw.#6/
+cd ../aisdw
+
+echo "Are you rnning this script as CM support?(yes/no)"
+read resp
+if [ ${resp} == "yes" ];then
+  git checkout master
+	echo "Makesure branch is on master"
+	read branch
+fi	
