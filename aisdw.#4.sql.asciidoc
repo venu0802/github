@@ -1,0 +1,27 @@
+SET ECHO ON
+SPOOL aisdw.#4.log
+--*****************************************************************
+--
+--      University of South Florida
+--      Data Warehouse System
+--      Repository Name: aisdw
+--      File Name   : aisdw.#4.sql
+
+--      File Location : c:\github\aisdw.wiki\aisdw.#4.sql.asciidoc
+--      Description : Starts all the scripts associated with package
+--
+--      Software Modifications:
+--     
+--     Version     Date        UserID         Description
+--     -------   ---------    --------        ------------------------
+--        1      10/15/2013    SPAGAN         Initial Creation
+--
+--*****************************************************************
+SET ECHO ON
+
+-- drop table
+@dbtable\gofast_ledger_temp_drop
+@dbtable\gofast_dl_revexp_temp_drop
+@dbtable\gofast_dl_bs_temp_drop
+SPOOL OFF;
+EXIT;

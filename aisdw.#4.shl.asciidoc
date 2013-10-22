@@ -1,0 +1,56 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Data Warehouse System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Reposit Name       : aisdw
+#  Shell Script Name  : aisdw.#4.shl.asciidoc
+#  Process Associated : git
+#  Object Source File Location and Name : c:\github\aisdw.wiki\aisdw.#4.shl.asciidoc
+#  Business Logic : 
+#   This script will process files for issue aisdw.#4 to drop temporary tables
+#    associated with the previous GOFAST Archive process.
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    10/15/2013      SPAGAN     Initial Creation 
+#   
+#************************************************************************
+echo "Enter git Issue. (Like aisdw.#1/aisdw.#1.dvlp ..)."
+read stage
+curdir=`pwd`
+cd ../aisdw
+git checkout ${stage}
+cd ${curdir}
+if [ -d ../aisdw.#4 ]; then
+   rm -r -f ../aisdw.#4
+fi
+
+
+mkdir ../aisdw.#4
+
+# copy tables/triggers 
+mkdir ../aisdw.#4/dbtable
+cp ../aisdw/dbtable/gofast_ledger_temp_drop.sql ../aisdw.#4/dbtable/
+cp ../aisdw/dbtable/gofast_dl_revexp_temp_drop.sql ../aisdw.#4/dbtable/
+cp ../aisdw/dbtable/gofast_dl_bs_temp_drop.sql ../aisdw.#4/dbtable/
+
+
+# if you have db objects, copy driver script to Issue folder
+cp  aisdw.#4.sql.asciidoc ../aisdw.#4/
+cp  aisdw.#4.txt.asciidoc ../aisdw.#4/
+cd ../aisdw
+
+echo "Are you rnning this script as CM support?(yes/no)"
+read resp
+if [ ${resp} == "yes" ];then
+  git checkout master
+	echo "Makesure branch is on master"
+	read branch
+fi	

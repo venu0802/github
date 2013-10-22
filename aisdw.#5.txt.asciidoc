@@ -1,0 +1,110 @@
+#  General Information
+#  -------------------
+#  Repository Name       : aisdw
+#  Issue Name         : aisdw.#5
+#  Process Associated : git
+#  Object Source File Location and Name : c:\github\oasam.wiki\aisdw.#5.txt.asciidoc
+#  Developer:       SPAGAN
+#  Project Manager: Julie Schneider
+
+
+Name                                       Type                  Application 
+-----------------------------------------------------------------------------
+sql\it_gf_arch_pre_dq1_m.sql               SCRIPT                DWHOUSE
+
+sql\it_gf_drp_idx_gofast_ledger_m.sql      SCRIPT                DWHOUSE
+sql\it_gf_drp_idx_gofast_dl_bs_m.sql       SCRIPT                DWHOUSE
+sql\it_gf_drp_idx_gofast_revexp_m.sql      SCRIPT                DWHOUSE
+
+sql\it_gf_idx_gofast_ledger_m.sql          SCRIPT                DWHOUSE
+sql\it_gf_idx_gofast_dl_bs_m.sql           SCRIPT                DWHOUSE
+sql\it_gf_idx_gofast_dl_revexp_m.sql       SCRIPT                DWHOUSE
+
+
+sql\it_gf_drop_arch_idx_m.sql              SCRIPT                DWHOUSE
+sql\it_gf_copy_src_temp_idx_m.sql          SCRIPT                DWHOUSE
+sql\it_gf_crt_arch_idx_m.sql               SCRIPT                DWHOUSE
+sql\it_gf_rename_src_to_old_m.sql          SCRIPT                DWHOUSE
+sql\it_gf_rename_temp_to_src_m.sql         SCRIPT                DWHOUSE
+sql\it_gf_rename_old_to_temp_m.sql         SCRIPT                DWHOUSE
+
+sql\it_gf_dq_gfl_crt_tbl1_m.sql            SCRIPT                DWHOUSE
+sql\it_gf_dq_gfl_crt_tbl2_m.sql            SCRIPT                DWHOUSE
+sql\it_gf_dq_gfl1_m.sql                    SCRIPT                DWHOUSE
+sql\it_gf_dq_gfl2_m.sql                    SCRIPT                DWHOUSE
+sql\it_gf_dq_dl_bs_crt_tbl1_m.sql          SCRIPT                DWHOUSE
+sql\it_gf_dq_dl_bs_crt_tbl2_m.sql          SCRIPT                DWHOUSE
+sql\it_gf_dq_dl_bs1_m.sql                  SCRIPT                DWHOUSE
+sql\it_gf_dq_dl_bs2_m.sql                  SCRIPT                DWHOUSE
+sql\it_gf_dq_dl_rev_crt_tbl1_m.sql         SCRIPT                DWHOUSE
+sql\it_gf_dq_dl_rev_crt_tbl2_m.sql         SCRIPT                DWHOUSE
+sql\it_gf_dq_dl_rev1_m.sql                 SCRIPT                DWHOUSE
+sql\it_gf_dq_dl_rev2_m.sql                 SCRIPT                DWHOUSE
+                                           
+exp\it_gf_arch_pre_dq1_m.exp               JOB                   DWHOUSE
+                                           
+exp\it_gf_drp_idx_gofast_ledger_m.exp      JOB                   DWHOUSE
+exp\it_gf_drp_idx_gofast_dl_bs_m.exp       JOB                   DWHOUSE
+exp\it_gf_drp_idx_gofast_revexp_m.exp      JOB                   DWHOUSE
+                                           
+exp\it_gf_idx_gofast_ledger_m.exp          JOB                   DWHOUSE
+exp\it_gf_idx_gofast_dl_bs_m.exp           JOB                   DWHOUSE
+exp\it_gf_idx_gofast_dl_revexp_m.exp       JOB                   DWHOUSE
+                                           
+exp\it_gf_drop_arch_idx_m.exp              JOB                   DWHOUSE
+exp\it_gf_copy_src_temp_idx_m.exp          JOB                   DWHOUSE
+exp\it_gf_crt_arch_idx_m.exp               JOB                   DWHOUSE
+exp\it_gf_rename_src_to_old_m.exp          JOB                   DWHOUSE
+exp\it_gf_rename_temp_to_src_m.exp         JOB                   DWHOUSE
+exp\it_gf_rename_old_to_temp_m.exp         JOB                   DWHOUSE
+                                           
+exp\it_gf_dq_gfl_crt_tbl1_m.exp            JOB                   DWHOUSE
+exp\it_gf_dq_gfl_crt_tbl2_m.exp            JOB                   DWHOUSE
+exp\it_gf_dq_gfl1_m.exp                    JOB                   DWHOUSE
+exp\it_gf_dq_gfl2_m.exp                    JOB                   DWHOUSE
+exp\it_gf_dq_dl_bs_crt_tbl1_m.exp          JOB                   DWHOUSE
+exp\it_gf_dq_dl_bs_crt_tbl2_m.exp          JOB                   DWHOUSE
+exp\it_gf_dq_dl_bs1_m.exp                  JOB                   DWHOUSE
+exp\it_gf_dq_dl_bs2_m.exp                  JOB                   DWHOUSE
+exp\it_gf_dq_dl_rev_crt_tbl1_m.exp         JOB                   DWHOUSE
+exp\it_gf_dq_dl_rev_crt_tbl2_m.exp         JOB                   DWHOUSE
+exp\it_gf_dq_dl_rev1_m.exp                 JOB                   DWHOUSE
+exp\it_gf_dq_dl_rev2_m.exp                 JOB                   DWHOUSE
+
+exp\it_gf_arch_dq_reports_c.exp            PROCESS FLOW          DWHOUSE
+exp\it_gf_arch_send_mail_c.exp             PROCESS FLOW          DWHOUSE
+exp\it_gf_idx_rename_c.exp                 PROCESS FLOW          DWHOUSE                                           
+                                           
+Instructions                               
+-------------------------------------------
+                                           
+Special Instructions for Development - SFADVLP  
+1. Delete files from repository                
+2. Delete .exp  from Application Manager         
+3. Delete .sql  from  unix directory in trusty: /home/appworx-wd/dvlp/dwhouse/sql
+                                           
+                                           
+Special Instructions for Development Upgrade - SFADVLPU
+1. Delete files from repository                
+2. Delete .exp  from Application Manager         
+3. Delete .sql  from  unix directory in trusty: /home/appworx-wd/dvlpu/dwhouse/sql
+                                           
+                                           
+Special Instructions for Test - SFAUAT     
+1. Delete files from repository                
+2. Delete .exp  from Application Manager         
+3. Delete .sql  from  unix directory in truly: /home/appworx-wd/uat/dwhouse/sql
+                                           
+                                           
+Special Instructions for Tet Upgrade - SFAUATU
+1. Delete files from repository                
+2. Delete .exp  from Application Manager         
+3. Delete .sql  from  unix directory in truly: /home/appworx-wd/uatu/dwhouse/sql
+                                           
+                                           
+Special Instructions for SFAPROD           
+1. Delete files from repository                
+2. Delete .exp  from Application Manager         
+3. Delete .sql  from  unix directory in thor: /home/appworx-wd/prod/dwhouse/sql
+-------------------------------------------
+                                           

@@ -1,0 +1,27 @@
+Developer:       SPAGAN
+Project Manager: Julie Schneider
+#  General Information
+#  -------------------
+#  Repository Name    : aisdw
+#  Issue Name         : aisdw.#6
+#  Process Associated : git
+#  Project Number     : Maintenance
+#  Project Description: Modify Appl Admit table comments
+#  Object Source File Location and Name : c:\github\aisdw.wiki\aisdw.#6.txt.asciidoc
+
+aisdw.#6 Issue Instructions
+
+Objects added/modified in this issue:
+dbtable/appl_admits_admr_comments.sql
+
+Instructions for DWDVLP:
+1) Merge issue to dvlp
+2) Run shell script from wiki and driver script from aisdw.#6 folder
+
+Instructions for DWTEST/DWUPG:
+1) Merge issue to test
+2) Run shell script from wiki and driver script from aisdw.#6 folder
+
+Instructions for DWHOUSE:
+1) Merge issue to prod (CMSupport)
+2) Run driver script (DBA)

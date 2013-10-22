@@ -1,0 +1,27 @@
+Developer:       NABDELRA
+Project Manager: Praveen Sadagopan 
+#  General Information
+#  -------------------
+#  Repository Name    : AISDW
+#  Issue Name         : aisdw.#2
+#  Process Associated : git
+#  Project Number : 10-0077x4
+#  Project Description: Scholarship Leveraging Extracts
+#  Object Source File Location and Name : c:\github\AISDW.wiki\aisdw.#2.txt.asciidoc
+
+aisdw.#2 Issue Instructions
+
+Objects added/modified in this issue:
+exp/it_admr_oracle_stage_ins_c.exp
+
+Instructions for DVLP:
+1) Merge issue to dvlp
+2) Run shell script from wiki and driver script from aisdw.#2 folder
+
+Instructions for PPRD:
+1) Merge issue to test
+2) Run shell script from wiki and driver script from aisdw.#2 folder
+
+Instructions for PROD:
+1) Merge issue to prod (CMSupport)
+2) Run driver script (DBA)
