@@ -1,5 +1,5 @@
 SET ECHO ON
-SPOOL aisdw.#4.log
+SPOOL aisdw.#6.log
 --*****************************************************************
 --
 --      University of South Florida
