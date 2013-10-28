@@ -3,9 +3,11 @@
 #  Reposit Name       : oasam
 #  Issue Name         : oasam.#1
 #  Process Associated : git
+#  Project Number : 1
+#  Project Description: Audit Activity Reports Enhancment
 #  Object Source File Location and Name : c:\github\oasam.wiki\oasam.#1.txt.asciidoc
 #  Developer:       VBANGALO
-#  Project Manager: Annre Runion
+#  Project Manager: Anne Runion
 
 exp\xxx1_m.exp
 exp\xxx2_m.exp

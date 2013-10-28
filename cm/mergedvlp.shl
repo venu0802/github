@@ -32,33 +32,31 @@ fi
 
 mkdir ../${issue}
 chmod 777 ../${issue}
-# get all branches with dvlp extention
-
 # get all changes made by this issue
-git diff --name-status master | grep ^M | cut -f2 > ../${issue}/${issue}_master.txt
+brbase=`git merge-base ${issue} master`
+git diff --name-status ${brbase} | grep ^M | cut -f2 > ../${issue}/${issue}_master.txt
 chmod 777 ../${issue}/${issue}_master.txt
 
 for br in `git branch | grep dvlp$ | grep \#`
 do
    # check if there are any files that have modified and common in other branches also
-   if [ `git diff --name-status  $br..master | grep ^M | cut -f2 | wc -l` -gt 0 ];then
-      git diff --name-status  $br ..master | grep ^M | cut -f2  >  ../${issue}/${issue}_branch.txt
+   brbase=`git merge-base $br master`
+   if [ `git diff --name-status  $br $brbase | grep ^M | cut -f2 | wc -l` -gt 0 ];then
+      echo "branch is $br"
+	  git diff --name-status  $br $brbase | grep ^M | cut -f2  >>  ../${issue}/${issue}_branch.txt
       IFS=$'\n'       # make newlines the only separator
       set -f          # disable globbing
       for i in $(cat ../${issue}/${issue}_master.txt); do
+        echo $i
+        echo "grepping from "
+        cat ../${issue}/${issue}_branch.txt
+        grep $i ../${issue}/${issue}_branch.txt
         if [ `grep $i ../${issue}/${issue}_branch.txt | wc -l` -gt 0 ];then
           echo " ${br}  $i" >> ../${issue}/${issue}_status.txt
           echo " ${br}  $i"
-          read bla
           chmod 777 ../${issue}/${issue}_status.txt
         fi
       done
-	  #if [ `grep -Fx -f ../${issue}/${issue}_master.txt ../${issue}/${issue}_branch.txt | wc -l` -gt 0 ];then
-	     #echo $br >>  ../${issue}/${issue}_status.txt
-         #echo "---------------" >>  ../${issue}/${issue}_status.txt
-		 #grep -Fx -f ../${issue}/${issue}_master.txt ../${issue}/${issue}_branch.txt >> ../${issue}/${issue}_status.txt
-		 #chmod 777 ../${issue}/${issue}_status.txt
-	  #fi
    fi
 done 
 if [ -f  ../${issue}/${issue}_status.txt ];then

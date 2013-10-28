@@ -1,0 +1,35 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Shell Script Name  : cleanlocalbranches.shl
+#  Process Associated : git
+#  Object Source File Location and Name : z:\github\developers\cleanlocalbranches.shl
+#  Business Logic : 
+#   Explain business logic here.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    9/30/2013       VBANGALO     Initial Creation 
+#   
+#************************************************************************
+echo "Please enter name of repository you want clean(Like oasban/oasam etc..)"
+read reposit
+# set git directory for developers  
+. setLocalSrv.shl
+. changetoLocalGitDir.shl
+cd $reposit
+git checkout master
+# Need to copy from local git server.
+git branch -D `git branch | awk  '{ if ($0 !~ /master/) printf "%s", $0 }'`
+git branch -d -r `git branch -ar | awk  '{ if ($0 !~ /master/) printf "%s", $0 }'`
+git fetch --all
+git reset --hard origin/master

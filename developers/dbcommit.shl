@@ -33,23 +33,14 @@ echo 'reposit is '${reposit}
 . changetoLocalGitDir.shl
 cd ${issue}
 pwd
-echo "Need to run guralt? (yes/no)"
-read ans
 TNS_ADMIN=//yemaya/Apps/ora102/NETWORK/ADMIN
    export TNS_ADMIN
-   echo "Enter database Instance (like PPRD/PPRDUPG/DWTEST...)"
+   echo "Enter database Instance (like DVLP/DWDVLP/...)"
    read dbinst
    echo "Enter database user id"
    read dbuser
    read -s -p "Enter Password: " password
    #read password
-if [ $ans == "yes" ];then
-   
-   echo exit | sqlplus ${dbuser}/${password}@${dbinst} @../${reposit}.wiki/guralter_git.sql before_guralt.sql "spool before_guralt.log"
    sqlplus ${dbuser}/${password}@${dbinst} @${issue}.sql
-   echo exit | sqlplus ${dbuser}/${password}@${dbinst} @../${reposit}.wiki/guralter_git.sql after_guralt.sql "spool after_guralt.log"
-else
-   sqlplus ${dbuser}/${password}@${dbinst} @${issue}.sql
-fi
 
 

@@ -40,6 +40,7 @@ pwd
 echo "pulling and resetting master"
 git fetch --all
 git branch -a
+git checkout master
 git reset --hard origin/master
 echo "pulling and resetting "${issue}
 git branch ${issue} origin/${issue}

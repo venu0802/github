@@ -7,9 +7,9 @@
 #
 #  General Information
 #  -------------------
-#  Shell Script Name  : deleteBranch2.shl
+#  Shell Script Name  : removeCMmember.shl
 #  Process Associated : git
-#  Object Source File Location and Name : z:\github\cm\deletebranch2.shl
+#  Object Source File Location and Name : z:\github\cm\removeCMmember.shl
 #  Business Logic : 
 #   Explain business logic here.
 #
@@ -18,27 +18,23 @@
 # ------------------------------------  
 #      Date         User         Reason For Change
 #   ---------       ------     -----------------------
-#    9/23/2013       VBANGALO     Initial Creation 
+#    10/29/2013       VBANGALO     Initial Creation 
 #   
 #************************************************************************
-. checkoutissue.shl
-echo "in cm mergetest"
-# first merge branches to local server
-pwd
-#echo "Is issue reached prod?"
-# todo: check if issue is prod issue and if not alert cm if it is ok to remove issue that is not prod.
-git branch -d ${issue}
-git push origin --delete ${issue}
-git push ${rmtSrv}/${reposit}.git --delete ${issue}
-brnch=`echo $issue | sed s/\.prod//` 
+echo "Please enter name of repository(Like oasban or oasam etc..)"
+read reposit
+. setLocalSrv.shl
+. setRemoteSrv.shl
+. changetoLocalGitDir.shl
 echo 'reposit is '${reposit}
 echo `pwd`
-mysed=`echo "sed -e '/${brnch} /d' ${localRep}/${reposit}.git/info/allowed-users"`
+echo "Enter CM Member OSID you want to remove from repository ${reposit}. (Like vbangalo instead of venu0802)"
+read userId
+mysed=`echo "sed -e '/master/ s/ ${userId}//' ${localRep}/${reposit}.git/info/allowed-users"`
 echo $mysed
 eval $mysed  > ${localRep}/${reposit}.git/info/tmp.txt
 cat ${localRep}/${reposit}.git/info/tmp.txt > ${localRep}/${reposit}.git/info/allowed-users
 rm -r -f ${localRep}/${reposit}.git/info/tmp.txt
 
-echo "Currently following branches are assigned."
-cat ${localRep}/${reposit}.git/info/allowed-users 
-  
+echo "Currently following CMids can change master."
+cat ${localRep}/${reposit}.git/info/allowed-users | grep "master"

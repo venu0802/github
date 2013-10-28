@@ -1,0 +1,70 @@
+ACC INST  CHAR  Please Enter Database Instance (DWDVLP/DWTEST/DWHOUSE)
+Logging into DATA_HUB@DWDVLP  Please enter password.
+CONNECT DATA_HUB@&INST
+@dbdata\table1_ins
+Error reading file
+@dbdata\table2_upd
+Error reading file
+@dbprocs\test_pack1
+Error reading file
+SHOW ERROR PACKAGE test_pack1
+No errors for PACKAGE VBANGALO.TEST_PACK1
+SHOW ERRORS  package body test_pack1
+No errors for PACKAGE BODY VBANGALO.TEST_PACK1
+@dbprocs\test_pack2
+Error reading file
+@dbgrsyn\test_pack2_grants
+Error reading file
+SHOW ERROR PACKAGE test_pack2
+No errors for PACKAGE VBANGALO.TEST_PACK2
+SHOW ERRORS  package body test_pack2
+No errors for PACKAGE BODY VBANGALO.TEST_PACK2
+@dbtable\table1
+Error reading file
+@dbgrsyn\table1_grants
+Error reading file
+Logging into BOG@DWDVLP  Please enter password.
+CONNECT BOG@&INST
+@dbdata\table1_ins
+Error reading file
+@dbdata\table2_upd
+Error reading file
+@dbprocs\test_pack1
+Error reading file
+SHOW ERROR PACKAGE test_pack1
+No errors for PACKAGE VBANGALO.TEST_PACK1
+SHOW ERRORS  package body test_pack1
+No errors for PACKAGE BODY VBANGALO.TEST_PACK1
+@dbprocs\test_pack2
+Error reading file
+@dbgrsyn\test_pack2_grants
+Error reading file
+SHOW ERROR PACKAGE test_pack2
+No errors for PACKAGE VBANGALO.TEST_PACK2
+SHOW ERRORS  package body test_pack2
+No errors for PACKAGE BODY VBANGALO.TEST_PACK2
+@dbtable\table1
+Error reading file
+@dbgrsyn\table1_grants
+Error reading file
+Logging into MARTIAN@DWDVLP  Please enter password.
+CONNECT MARTIAN@&1
+@dbprocs\test_pack3
+Error reading file
+SHOW ERROR PACKAGE test_pack3
+No errors for PACKAGE VBANGALO.TEST_PACK3
+SHOW ERRORS  package body test_pack3
+No errors for PACKAGE BODY VBANGALO.TEST_PACK3
+@dbprocs\test_pack4
+Error reading file
+@dbgrsyn\test_pack4_grants
+Error reading file
+SHOW ERROR PACKAGE test_pack4
+No errors for PACKAGE VBANGALO.TEST_PACK4
+SHOW ERRORS  package body test_pack4
+No errors for PACKAGE BODY VBANGALO.TEST_PACK4
+@dbtable\view2
+Error reading file
+@dbgrsyn\view2_grants
+Error reading file
+SPOOL OFF;

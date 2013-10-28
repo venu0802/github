@@ -7,9 +7,9 @@
 #
 #  General Information
 #  -------------------
-#  Shell Script Name  : deleteBranch2.shl
+#  Shell Script Name  : deleteBranch.shl
 #  Process Associated : git
-#  Object Source File Location and Name : z:\github\cm\deletebranch2.shl
+#  Object Source File Location and Name : z:\github\cm\deletebranch.shl
 #  Business Logic : 
 #   Explain business logic here.
 #
@@ -30,15 +30,4 @@ pwd
 git branch -d ${issue}
 git push origin --delete ${issue}
 git push ${rmtSrv}/${reposit}.git --delete ${issue}
-brnch=`echo $issue | sed s/\.prod//` 
-echo 'reposit is '${reposit}
-echo `pwd`
-mysed=`echo "sed -e '/${brnch} /d' ${localRep}/${reposit}.git/info/allowed-users"`
-echo $mysed
-eval $mysed  > ${localRep}/${reposit}.git/info/tmp.txt
-cat ${localRep}/${reposit}.git/info/tmp.txt > ${localRep}/${reposit}.git/info/allowed-users
-rm -r -f ${localRep}/${reposit}.git/info/tmp.txt
-
-echo "Currently following branches are assigned."
-cat ${localRep}/${reposit}.git/info/allowed-users 
   

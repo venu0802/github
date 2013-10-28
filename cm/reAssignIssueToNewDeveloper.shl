@@ -1,0 +1,46 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Shell Script Name  : reAssignIssueToNewDeveloper.shl
+#  Process Associated : git
+#  Object Source File Location and Name : z:\github\cm\reAssignIssueToNewDeveloper.shl
+#  Business Logic : 
+#   Explain business logic here.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    10/28/2013       VBANGALO     Initial Creation 
+#   
+#************************************************************************
+echo "Please enter name of issue(Like oasban.#1 etc..)"
+read issue
+. setLocalSrv.shl
+. setRemoteSrv.shl
+. changetoLocalGitDir.shl
+echo 'issue is '${issue}
+echo ${issue} |cut -d'.' -f1 
+reposit=`echo ${issue} |cut -d'.' -f1`
+echo 'reposit is '${reposit}
+cd ${reposit}
+pwd
+echo "Enter old developer OSID assigned to issue ${issue}. (Like vbangalo instead of venu0802)"
+read olduserId
+echo "Enter new developer OSID to work on issue ${issue}. (Like vbangalo instead of venu0802)"
+read userId
+mysed=`echo "sed -e '/${issue} / s/${olduserId}/${userId}/' ${localRep}/${reposit}.git/info/allowed-users"`
+echo $mysed
+eval $mysed  > ${localRep}/${reposit}.git/info/tmp.txt
+cat ${localRep}/${reposit}.git/info/tmp.txt > ${localRep}/${reposit}.git/info/allowed-users
+rm -r -f ${localRep}/${reposit}.git/info/tmp.txt
+
+echo "Currently following users can change ${issue} branch."
+cat ${localRep}/${reposit}.git/info/allowed-users | grep "${issue} "

@@ -64,7 +64,7 @@ cp ../oasam/sql/xx_xxx_xxxxxxxxxxxxxxxxxxx.sql ../oasam.#1/
 
 # This is required. Do NOT delete code from here to end.
 
-cp  oasam.#1.txt.asciidoc ../oasam.#1/
+cp  oasam.#1.txt.asciidoc ../oasam.#1/oasam.#1.txt
 
 echo "Are you rnning this script as CM support?(yes/no)"
 read resp

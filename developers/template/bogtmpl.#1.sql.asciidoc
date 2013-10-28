@@ -24,7 +24,7 @@ SPOOL oasbog.#x.log
 --Group all objects that belong to DATA_HUB schema after the login command
 ACC INST  CHAR  Please Enter Database Instance (DWDVLP/DWTEST/DWHOUSE)
 PROMPT Logging into DATA_HUB@&INST.  Please enter password.
-CONNECT DATA_HUB@&1
+CONNECT DATA_HUB@&INST
 
 -- data inserts/data updates into tables
 @dbdata\table1_ins
@@ -36,36 +36,53 @@ CONNECT DATA_HUB@&1
 --- existing package
 @dbprocs\test_pack1
 -- following lines needs to be added for each procedure/package
-SHOW ERROR PACKAGE test_pack1
-SHOW ERRORS  package body test_pack1
+SHOW ERROR PACKAGE data_hub.test_pack1
+SHOW ERRORS  package body data_hub.test_pack1
 
 --- new package
 @dbprocs\test_pack2
 @dbgrsyn\test_pack2_grants
 -- following lines needs to be added for each procedure/package
-SHOW ERROR PACKAGE test_pack2
-SHOW ERRORS  package body test_pack2
+SHOW ERROR PACKAGE data_hub.test_pack2
+SHOW ERRORS  package body data_hub.test_pack2
 
 -- new table
 @dbtable\table1
 @dbgrsyn\table1_grants
 
+
+--Group all objects that belong to BOG schema after the login command
+PROMPT Logging into BOG@&INST.  Please enter password.
+CONNECT BOG@&INST
+
+-- data inserts/data updates into tables
+@dbdata\table1_ins
+@dbdata\table2_upd
+
+
+
+-- new table
+@dbtable\table1
+@dbgrsyn\table1_grants
+
+
+
 --Group all objects that belong to MARTIAN schema after the login command
-PROMPT Logging into MARTIAN@&1.  Please enter password.
+PROMPT Logging into MARTIAN@&INST.  Please enter password.
 CONNECT MARTIAN@&1
 
 --- existing package
 @dbprocs\test_pack3
 -- following lines needs to be added for each procedure/package
-SHOW ERROR PACKAGE test_pack3
-SHOW ERRORS  package body test_pack3
+SHOW ERROR PACKAGE martian.test_pack3
+SHOW ERRORS  package body martian.test_pack3
 
 --- new package
 @dbprocs\test_pack4
 @dbgrsyn\test_pack4_grants
 -- following lines needs to be added for each procedure/package
-SHOW ERROR PACKAGE test_pack4
-SHOW ERRORS  package body test_pack4
+SHOW ERROR PACKAGE martian.test_pack4
+SHOW ERRORS  package body martian.test_pack4
 
 -- new view
 @dbtable\view2

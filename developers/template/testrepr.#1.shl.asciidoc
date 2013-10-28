@@ -54,8 +54,8 @@ cp ../oasban/dbgrsyn/wsak_xxxx1.sql ../oasban.#x/dbgrsyn/
 cp ../oasban/dbgrsyn/swrxxxx.sql ../oasban.#x/dbgrsyn/
 
 # if you have db objects, copy driver script to Issue folder
-cp  oasban.#x.sql.asciidoc ../oasban.#x/
-cp  oasban.#x.txt.asciidoc ../oasban.#x/
+cp  oasban.#x.sql.asciidoc ../oasban.#x/oasban.#x.sql
+cp  oasban.#x.txt.asciidoc ../oasban.#x/oasban.#x.txt
 cd ../oasban
 echo "Are you rnning this script as CM support?(yes/no)"
 read resp

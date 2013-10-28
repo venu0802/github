@@ -1,0 +1,69 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Shell Script Name  : createIssueBranch.shl
+#  Process Associated : git
+#  Object Source File Location and Name : z:\github\cm\copyIssueFolderToAgents.shl
+#  Business Logic : 
+#   Make sure that issue is created in githubserver <<reposit>>.#<issue>> format.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    9/16/2013       VBANGALO     Initial Creation 
+#   
+#************************************************************************
+curdir=`pwd`
+echo "Please enter name of issue(Like oasban.#1 etc..)"
+read issue
+echo 'issue is '${issue}
+. setRemoteSrv.shl
+. setLocalSrv.shl
+echo ${issue} |cut -d'.' -f1 
+reposit=`echo ${issue} |cut -d'.' -f1`
+echo 'reposit is '${reposit}
+. changetoLocalGitDir.shl
+cd ${reposit}.wiki
+echo "directory is "
+echo `pwd`
+read -p "enter name of am instance(dvlp/dvlpu/uat/uatu/prod)" appworxEnv 
+
+echo ""
+if [ $appworxEnv == "dvlp" ];then
+   server=trusty.cfr.usf.edu
+elif [ $appworxEnv == "dvlpu" ];then
+   server=trusty.cfr.usf.edu
+elif [ $appworxEnv == "uat" ];then
+   server=truly.cfr.usf.edu
+elif [ $appworxEnv == "uatu" ];then
+   server=truly.cfr.usf.edu
+elif [ $appworxEnv == "prod" ];then
+	    server=thor.cfr.usf.edu
+fi 
+read -p "Enter userId for ${server} :" userId
+
+read -s -p "Enter password for ${server} :" appagentpwd
+echo "
+"
+
+. ${issue}.shl.asciidoc
+chmod 777 ../${issue}
+echo "cd /home/appworx-wd/${appworxEnv}/common/tmp/jira/
+      put -r ../${issue}
+	  chmod 777 ${issue}
+      quit"|psftp ${userId}@${server} -v -pw ${appagentpwd} 
+if [ $appworxEnv == "uat" -o  $appworxEnv == "uatu" ];then
+  echo "cd /home/appworx-wd/${appworxEnv}/common/tmp/jira/
+  put -r ../${issue}
+  chmod 777 ${issue}
+  quit"|psftp ${userId}@wh5000.it.usf.edu -v -pw ${appagentpwd} 
+fi
+
