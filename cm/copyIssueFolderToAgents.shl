@@ -59,11 +59,15 @@ chmod 777 ../${issue}
 echo "cd /home/appworx-wd/${appworxEnv}/common/tmp/jira/
       put -r ../${issue}
 	  chmod 777 ${issue}
+	  cd /home/appworx-wd/${appworxEnv}/common/tmp/jira/${issue}
+	  chmod 777 *.*
       quit"|psftp ${userId}@${server} -v -pw ${appagentpwd} 
 if [ $appworxEnv == "uat" -o  $appworxEnv == "uatu" ];then
   echo "cd /home/appworx-wd/${appworxEnv}/common/tmp/jira/
   put -r ../${issue}
   chmod 777 ${issue}
+  cd /home/appworx-wd/${appworxEnv}/common/tmp/jira/${issue}
+  chmod 777 *.*
   quit"|psftp ${userId}@wh5000.it.usf.edu -v -pw ${appagentpwd} 
 fi
 
