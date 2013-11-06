@@ -23,6 +23,7 @@
 #************************************************************************
 echo "Please enter name of repository you want update(Like oasban/oasam etc..)"
 read reposit
+export reposit
 # set git directory for cm support  
 . setLocalSrv.shl
 . changetoLocalGitDir.shl

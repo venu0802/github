@@ -1,0 +1,4 @@
+for i in dvlp test
+do
+  echo $i
+done

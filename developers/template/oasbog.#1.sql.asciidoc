@@ -22,9 +22,9 @@ SPOOL oasbog.#x.log
 --*****************************************************************
 
 --Group all objects that belong to DATA_HUB schema after the login command
-ACC INST  CHAR  Please Enter Database Instance (DWDVLP/DWTEST/DWHOUSE)
+ACC INST  CHAR  PROMPT 'Please Enter Database Instance (DWDVLP/DWTEST/DWHOUSE)'
 PROMPT Logging into DATA_HUB@&INST.  Please enter password.
-CONNECT DATA_HUB@&1
+CONNECT DATA_HUB@&INST
 
 -- data inserts/data updates into tables
 @dbdata\table1_ins

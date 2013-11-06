@@ -1,0 +1,51 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Shell Script Name  : checkObjectInBranches
+#  Process Associated : git
+#  Object Source File Location and Name : z:\github\cm\checkObjectInBranches.shl
+#  Business Logic : 
+#   Explain business logic here.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    9/18/2013       VBANGALO     Initial Creation 
+#   
+#************************************************************************
+
+#. updatebranches.shl
+. changetoLocalGitDir.shl
+
+read -p "Enter repository name. (Like oasban)   :" repo
+cd $repo
+#cd $reposit
+git checkout master
+read -r -p "Enter object like dbprocs/wsaketbl.sql   :" obj
+obj=`echo "$obj" | sed 's@\\\@\/@g'`
+
+
+# this has to be repeated since all bash commands are not supported in windows.
+for i in dvlp test
+do
+ for br in `git branch | grep  ${i}$ | grep \#`
+ do
+   # check if there are any files that have modified and common in other branches also
+   brbase=`git merge-base $br master`
+   if [ `git diff --name-status  $br $brbase |  cut -f2 | grep $obj | wc -l` -gt 0 ];then
+      echo "branch is $br"
+      git diff --name-status  $br $brbase |  cut -f2  | grep $obj
+      IFS=$'\n'       # make newlines the only separator
+      set -f          # disable globbing
+   fi
+ done 
+done
+

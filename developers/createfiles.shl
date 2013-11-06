@@ -1,0 +1,267 @@
+#!/bin/bash
+#***********************************************************************
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Shell Script Name  : createfiles
+#  Process Associated : git
+#  Object Source File Location and Name : z:\github\developers\checkoutIssue.shl
+#  Business Logic : 
+#   Explain business logic here.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date         User         Reason For Change
+#   ---------       ------     -----------------------
+#    10/18/2013       NABDELRA     Initial Creation 
+#   
+#************************************************************************
+echo "Please enter name of issue(Like oasban.#1 etc..)"
+read issue
+
+
+. changetoLocalGitDir.shl
+
+
+pwd
+echo 'issue is '${issue}
+echo ${issue} |cut -d'.' -f1 
+reposit=`echo ${issue} |cut -d'.' -f1`
+echo 'reposit is '${reposit}
+cd ${reposit}.wiki
+pwd
+
+#Check if txt file exists before processing
+if [ -f ${issue}.txt.asciidoc ];then
+
+#If the reposit ends in "am" that means its an Appworx project
+apwx=`echo -n ${reposit} | tail -c -2`
+if [[ $apwx == "am" ]]
+then
+isapwx="yes"
+else
+isapwx="no"
+  #If the reposit ends in "bog"  that means its an DW project
+  bog=`echo -n ${reposit} | tail -c -3`
+  if [[ $bog == "bog" ]]
+  then
+  dwheader="
+--Group all objects that belong to DATA_HUB schema after the login command
+ACC INST  CHAR  PROMPT 'Please Enter Database Instance (DWDVLP/DWTEST/DWHOUSE)'
+PROMPT Logging into DATA_HUB@&INST.  Please enter password.
+CONNECT DATA_HUB@&INST \n 
+--Group all objects that belong to MARTIAN schema after the login command
+PROMPT Logging into MARTIAN@&INST.  Please enter password.
+CONNECT MARTIAN@@&INST\n"
+  fi
+fi
+
+
+
+#If the reposit ends in "bog"  that means its an DW project
+project=`echo -n ${reposit} | tail -c -3`
+                           
+
+# create header part
+#extract the project number and description
+projectnmbr=`echo $(egrep -e "Project Number"  ${issue}.txt.asciidoc)|cut -d':' -f2`
+projectdesc=`echo $(egrep -e "Project Description" ${issue}.txt.asciidoc)|cut -d':' -f2`
+tabs=`echo -e '\t\t\t\t'`
+
+header="
+#*********************************************************************** 
+#
+#  University of South Florida
+#  Student Information System
+#  Program Unit Information
+#
+#  General Information
+#  -------------------
+#  Reposit Name       : ${reposit}
+#  Shell Script Name  : ${issue}.ext.asciidoc
+#  Project or PROD issue number:${projectnmbr} 
+#  Project Description:${projectdesc}
+#  Process Associated : git
+#  Object Source File Location and Name : c:\github\\${reposit}.wiki\\${issue}.ext.asciidoc
+#  Business Logic : 
+#   Explain business logic here.
+#
+#
+# Audit Trail (in descending date order)
+# ------------------------------------  
+#      Date  $tabs User $tabs Reason For Change
+#   ---------$tabs ---- $tabs -----------------------
+#   $(date +"%m-%d-%y") $tabs $(id -u -n) $tabs Initial Creation 
+#   
+#************************************************************************
+
+"
+
+
+#Create the shell script header part
+shlheader="
+echo 'Enter git Issue. (Like oasban.#1/oasban.#1.dvlp ..).'
+read stage
+curdir=\`pwd\`
+cd ../${reposit}
+git checkout \${stage}
+cd \${curdir}
+if [ -d ../${issue} ]; then
+   rm -r -f ../${issue}
+fi
+
+mkdir ../${issue}
+
+# copy objects to correponding folder  "
+
+#Create the shell script footer part
+
+apwxfooter="
+# copy text instruction to Issue folder
+cp  ${issue}.txt.asciidoc ../${issue}/${issue}.txt"
+
+driverfooter="
+# if you have db objects, copy driver script to Issue folder
+cp  ${issue}.txt.asciidoc ../${issue}/${issue}.txt
+cp  ${issue}.sql.asciidoc ../${issue}/${issue}.sql"
+
+shlfooter="
+# This is required. Do NOT delete code from here to end.
+cd ../${reposit}
+echo 'Are you running this script as CM support?(yes/no)'
+read resp
+if [ \${resp} == "yes" ];then
+  git checkout master
+	echo 'Makesure branch is on master'
+	read branch
+fi"
+
+
+#create driver script ,Only create a driver script for non appworx projects
+if [ ${isapwx} = "no" ]
+ then
+ext=sql 
+sqlheader="
+SET ECHO ON
+SPOOL ${issue}.log"
+#Empty the files before writing 
+echo "" >${issue}.sql.asciidoc
+echo "$sqlheader" >>${issue}.${ext}.asciidoc
+echo "$header" >>${issue}.${ext}.asciidoc 
+sed -i "s/ext/${ext}/g"  ${issue}.${ext}.asciidoc
+
+#Add Data Warehouse header for DW projects
+echo -e "$dwheader" >>${issue}.${ext}.asciidoc
+fi
+     
+#create shell script 
+ext=shl
+#Empty the files before writing 
+echo "" >${issue}.shl.asciidoc
+echo "#!/bin/bash">>${issue}.${ext}.asciidoc 
+echo "$header" >>${issue}.${ext}.asciidoc 
+echo. "$shlheader" >>${issue}.${ext}.asciidoc
+sed -i "s/ext/${ext}/g"  ${issue}.${ext}.asciidoc
+
+
+# create both shell and driver script for non apwrx projects
+if [[ ${isapwx} = "no" ]]
+then 
+
+for i in `cat  ${issue}.txt.asciidoc |grep -e '.*/.*\.'|grep -v '#'`
+do
+    #folder=`echo ${i} |cut -d'/' -f1`
+    folder=`dirname ${i}`
+    objname=`basename ${i}`
+    
+  
+    #create dirver script
+    ext=sql
+    echo @$i|sed "s@\/@\\\@g"  >>${issue}.${ext}.asciidoc
+    if [[ $folder = *dbprocs* ]]
+    then
+    #sqlfooter=`echo ${sqlfooter} ${i}|cut -d'/' -f2`
+    sqlfooter=`echo ${sqlfooter} ${objname}`
+    fi
+  
+    #create shell script 
+    ext=shl
+    if [[ $folders != *$folder* ]]
+    then
+     folders=`echo ${folders},${folder}`
+     echo "" >>${issue}.${ext}.asciidoc
+     echo mkdir -p  ../${issue}/${folder} >>${issue}.${ext}.asciidoc
+    fi
+     
+    echo cp ../${reposit}/$i ../${issue}/${folder}/ >>${issue}.${ext}.asciidoc
+done
+  
+else
+ext=shl
+#for x in `cat ${issue}.txt.asciidoc | sed -e '/'Name.*Type.*Application'/,$d'|grep -v '#' |cut -d'\' -f2`
+for x in `cat ${issue}.txt.asciidoc | sed -e '/'Name.*Type.*Application'/,$d'|grep -v '#'|sed 's@\\\@\/@g' `
+do
+     
+    # no driver script is required for appworx projects  AND NO folder structure is required for appworx projects
+      echo cp ../${reposit}/$x ../${issue} >>${issue}.${ext}.asciidoc
+    
+done 
+
+fi
+
+#write shl footer
+ext=shl
+if [[ ${isapwx} == "no" ]] 
+then
+echo "$driverfooter">>${issue}.${ext}.asciidoc
+else 
+echo "$apwxfooter">>${issue}.${ext}.asciidoc
+fi 
+
+echo "$shlfooter" >>${issue}.${ext}.asciidoc
+
+
+
+#Appwx projects do not require driver script 
+if [[ ${isapwx} == "no" ]] 
+then
+#write sql footer
+ext=sql  
+for i in ${sqlfooter} 
+do
+echo " " >>${issue}.${ext}.asciidoc
+echo SHOW ERRORS PACKAGE $i >>${issue}.${ext}.asciidoc
+echo SHOW ERRORS PACKAGE BODY $i >>${issue}.${ext}.asciidoc
+done
+
+echo "SPOOL OFF" >> ${issue}.${ext}.asciidoc
+echo "EXIT;" >>${issue}.${ext}.asciidoc     
+
+# Replace all comments # with - in the driver script file
+sed -i 's/^#/-/g'  ${issue}.${ext}.asciidoc
+
+fi
+
+#Print out a message indicating if the files were created
+if [[ ${isapwx} == "no" ]] 
+then
+  if [[ -f "${issue}.shl.asciidoc" ]] && [[ -f "${issue}.sql.asciidoc" ]]
+  then 
+  echo "Shell and driver scripts are created"
+  fi
+else
+  if  [ -f ${issue}.shl.asciidoc ];then 
+  echo "Shell script is created"
+  fi
+fi
+else 
+echo "${issue}.txt.asciidoc does not exist"
+fi
+
+
+
